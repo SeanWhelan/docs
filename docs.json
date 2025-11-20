@@ -4,8 +4,8 @@
   "name": "Estuary Flow Documentation",
   "colors": {
     "primary": "#5072EB",
-    "light": "#04192B",
-    "dark": "#6ED5D6"
+    "light": "#6ED5D6",
+    "dark": "#04192B"
   },
   "favicon": "/favicon.svg",
   "navigation": {
