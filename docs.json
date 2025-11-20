@@ -218,9 +218,7 @@
         "groups": [
           {
             "group": "Reference/Connectors/",
-            "pages": [
-              "reference/Connectors/"
-            ]
+            "pages": ["reference/Connectors/"]
           },
           {
             "group": "Capture Connectors",
@@ -435,9 +433,7 @@
           },
           {
             "group": "Reference/Connectors/dekaf/",
-            "pages": [
-              "reference/Connectors/dekaf/"
-            ]
+            "pages": ["reference/Connectors/dekaf/"]
           }
         ]
       }

@@ -1,0 +1,75 @@
+---
+title: "Dekaf"
+description: "This connector materializes Flow collections as Kafka-compatible messages that Kafka consumers can read."
+---
+
+If you want to send messages to your own Kafka broker, see the [Kafka](/reference/Connectors/materialization-connectors/apache-kafka/) materialization connector instead.
+
+## Prerequisites[​](#prerequisites "Direct link to Prerequisites")
+
+To use this connector, you'll need:
+
+* At least one Flow collection
+* At least one Kafka consumer
+
+## Variants[​](#variants "Direct link to Variants")
+
+Dekaf can be used with a number of systems that act as Kafka consumers. Specific instructions are provided for the following systems:
+
+* [Bytewax](/reference/Connectors/materialization-connectors/Dekaf/bytewax/)
+* [ClickHouse](/reference/Connectors/materialization-connectors/Dekaf/clickhouse/)
+* [Imply Polaris](/reference/Connectors/materialization-connectors/Dekaf/imply-polaris/)
+* [Materialize](/reference/Connectors/materialization-connectors/Dekaf/materialize/)
+* [SingleStore](/reference/Connectors/materialization-connectors/Dekaf/singlestore/)
+* [Startree](/reference/Connectors/materialization-connectors/Dekaf/startree/)
+* [Tinybird](/reference/Connectors/materialization-connectors/Dekaf/tinybird/)
+* [RisingWave](/reference/Connectors/materialization-connectors/Dekaf/risingwave/)
+
+For other use cases, continue with the setup details below for general instruction.
+
+## Setup[​](#setup "Direct link to Setup")
+
+Provide an auth token when setting up the Dekaf connector. This can be a password of your choosing and will be used to authenticate consumers to your Kafka topics.
+
+Once the connector is created, note the full materialization name, such as `YOUR-ORG/YOUR-PREFIX/YOUR-MATERIALIZATION`. You will use this as the username.
+
+You may then connect to a Kafka consumer of your choice using the following details:
+
+* **Broker Address**: `dekaf.estuary-data.com:9092`
+* **Schema Registry Address**: `https://dekaf.estuary-data.com`
+* **Security Protocol**: `SASL_SSL`
+* **SASL Mechanism**: `PLAIN`
+* **SASL Username**: The full name of your materialization
+* **SASL Password**: The auth token you specified
+* **Schema Registry Username**: The full name of your materialization
+* **Schema Registry Password**: The auth token you specified
+
+To subscribe to a particular topic, use a binding's topic name. By default, this will be the collection name.
+
+## Configuration[​](#configuration "Direct link to Configuration")
+
+To use this connector, begin with data in one or more Flow collections. Use the below properties to configure a Dekaf materialization, which will direct one or more of your Flow collections to your desired topics.
+
+### Properties[​](#properties "Direct link to Properties")
+
+#### Endpoint[​](#endpoint "Direct link to Endpoint")
+
+| Property              | Title              | Description                                                                | Type    | Required/Default |
+| --------------------- | ------------------ | -------------------------------------------------------------------------- | ------- | ---------------- |
+| `/token`              | Auth Token         | The password that Kafka consumers can use to authenticate to this task.    | string  | Required         |
+| `/strict_topic_names` | Strict Topic Names | Whether or not to expose topic names in a strictly Kafka-compliant format. | boolean | `false`          |
+| `/deletions`          | Deletion Mode      | Can choose between `kafka` or `cdc` deletion modes.                        | string  | `kafka`          |
+
+#### Bindings[​](#bindings "Direct link to Bindings")
+
+| Property      | Title      | Description                                     | Type   | Required/Default |
+| ------------- | ---------- | ----------------------------------------------- | ------ | ---------------- |
+| `/topic_name` | Topic Name | Kafka topic name that Dekaf will publish under. | string | Required         |
+
+### Sample[​](#sample "Direct link to Sample")
+
+```
+materializations:  ${PREFIX}/${mat_name}:    endpoint:      dekaf:        config:          token: <auth-token>          strict_topic_names: false          deletions: kafka        variant: generic    bindings:      - resource:          topic_name: ${COLLECTION_NAME}        source: ${PREFIX}/${COLLECTION_NAME}
+```
+
+[Edit this page](https://github.com/estuary/flow/edit/master/site/docs/reference/Connectors/materialization-connectors/Dekaf/dekaf.md)

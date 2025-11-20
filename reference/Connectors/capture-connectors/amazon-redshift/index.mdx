@@ -1,0 +1,48 @@
+---
+title: "Amazon Redshift (Deprecated)"
+description: "This connector captures data from your Amazon Redshift cluster into Flow collections."
+---
+
+<Warning>
+  This connector is deprecated. For the best experience, we recommend using our native [Redshift batch connector](/reference/Connectors/capture-connectors/redshift-batch/) instead.
+</Warning>
+
+## Prerequisites[​](#prerequisites "Direct link to Prerequisites")
+
+To use this connector, you'll need:
+
+* Access credentials for connecting to your Amazon Redshift cluster.
+* Properly configured IAM roles for the necessary permissions.
+
+## Configuration[​](#configuration "Direct link to Configuration")
+
+You can configure the Redshift source connector either through the Flow web app or by directly editing the Flow specification file. For more information on using this connector, see our guide on [connectors](https://docs.estuary.dev/concepts/connectors/#using-connectors). The values and specification sample below provide configuration details that are specific to the Amazon Redshift source connector.
+
+### Properties[​](#properties "Direct link to Properties")
+
+#### Endpoint[​](#endpoint "Direct link to Endpoint")
+
+| Property           | Title           | Description                                                                                                          | Type    | Required/Default |
+| ------------------ | --------------- | -------------------------------------------------------------------------------------------------------------------- | ------- | ---------------- |
+| **`/host`**        | Host            | Hostname or IP address of your Redshift cluster.                                                                     | string  | Required         |
+| **`/port`**        | Port            | Port number for the cluster.                                                                                         | integer | Default          |
+| **`/database`**    | Database Name   | Name of the database to capture data from.                                                                           | string  | Required         |
+| **`/user`**        | User            | Database user with necessary permissions.                                                                            | string  | Required         |
+| **`/password`**    | Password        | Password for the specified database user.                                                                            | string  | Required         |
+| **`/schemas`**     | Schemas         | List of schemas to include.                                                                                          | string  |                  |
+| **`/jdbc_params`** | JDBC URL Params | Additional properties to pass to the JDBC URL string when connecting to the database formatted as 'key=value' pairs. | string  |                  |
+
+#### Bindings[​](#bindings "Direct link to Bindings")
+
+| Property            | Title               | Description                                                                          | Type              | Required/Default |
+| ------------------- | ------------------- | ------------------------------------------------------------------------------------ | ----------------- | ---------------- |
+| **`/table`**        | Table Name          | Name of the table to capture.                                                        | string            | Required         |
+| **`/cursor_field`** | User-defined Cursor | Field for incremental syncs. Uses ascending values to ensure queries are sequential. | string or integer | Required         |
+
+### Sample[​](#sample "Direct link to Sample")
+
+```
+captures:  ${PREFIX}/${CAPTURE_NAME}:    endpoint:      connector:        image: ghcr.io/estuary/source-redshift:dev        config:          host: "example-redshift-cluster.us-east-2.redshift.amazonaws.com"          port: 5439          database: "sample_db"          user: "sample_user"          password: "sample_password"          schemas: "public"          jdbc_params: "key1=value1&key2=value2&key3=value3"    bindings:      - resource:          table: users          cursor_field: cursor        target: ${PREFIX}/users
+```
+
+[Edit this page](https://github.com/estuary/flow/edit/master/site/docs/reference/Connectors/capture-connectors/amazon-redshift.md)
