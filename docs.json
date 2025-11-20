@@ -1,122 +1,447 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "aspen",
+  "name": "Estuary Flow Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#0D9373",
+    "light": "#55D799",
+    "dark": "#0D9373"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Estuary Flow",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "home",
+              "getting-started/who-should-use-flow/",
+              "getting-started/quickstart/",
+              "getting-started/deployment-options/",
+              "getting-started/comparisons/",
+              "getting-started/installation/",
+              {
+                "group": "Tutorials",
+                "pages": [
+                  "getting-started/tutorials",
+                  "getting-started/tutorials/postgresql_cdc_to_snowflake/",
+                  "getting-started/tutorials/real_time_cdc_with_mongodb/",
+                  "getting-started/tutorials/dataflow-s3-snowflake/",
+                  "getting-started/tutorials/continuous-materialized-view/",
+                  "getting-started/tutorials/derivations_acmebank/",
+                  "guides/system-specific-dataflows/firestore-to-dwh/"
+                ]
+              },
+              "getting-started/sso-setup/",
+              "getting-started/support/"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Using Estuary Flow",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "guides",
+              "guides/create-dataflow/",
+              "guides/connect-network/",
+              "reference/backfilling-data/",
+              "guides/dashboard/",
+              "guides/get-started-with-flowctl/",
+              "guides/flowctl/",
+              "guides/customize-dataflows/",
+              "reference/deletions/",
+              "guides/how_to_generate_refresh_token/",
+              "guides/schema-evolution/"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Transforming Data",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "guides/dbt-integration/",
+              "guides/transform_data_using_python/",
+              "guides/derivation_tutorial_sql/",
+              "guides/transform_data_using_typescript/",
+              "guides/flatten-array/",
+              "guides/howto_join_two_collections_typescript/"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Advanced Features",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "reference/time-travel/",
+              "reference/Configuring-task-shards/",
+              "reference/working-logs-stats/",
+              "reference/openmetrics-api/",
+              "reference/organizing-catalogs/",
+              "guides/dekaf_reading_collections_from_kafka/"
+            ]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "concepts",
+              "concepts/captures/",
+              "concepts/catalogs/",
+              "concepts/collections/",
+              "concepts/connectors/",
+              "concepts/derivations/",
+              "concepts/flowctl/",
+              "concepts/import/",
+              "concepts/materialization/",
+              "concepts/schemas/",
+              "concepts/storage-mappings/",
+              "concepts/tests/",
+              "concepts/web-app/"
+            ]
+          },
+          {
+            "group": "Private & BYOC Deployments",
+            "pages": [
+              "private-byoc",
+              "private-byoc/byoc-deployments/",
+              "private-byoc/private-deployments/",
+              "private-byoc/privatelink/"
+            ]
+          },
+          {
+            "group": "Security & Compliance",
+            "pages": [
+              "security",
+              "security/security-features/",
+              "security/compliance/",
+              "reference/allow-ip-addresses/"
+            ]
+          },
+          {
+            "group": "Getting Started",
+            "pages": [
+              "home",
+              "getting-started/who-should-use-flow/",
+              "getting-started/quickstart/",
+              "getting-started/deployment-options/",
+              "getting-started/comparisons/",
+              "getting-started/installation/",
+              {
+                "group": "Tutorials",
+                "pages": [
+                  "getting-started/tutorials",
+                  "getting-started/tutorials/postgresql_cdc_to_snowflake/",
+                  "getting-started/tutorials/real_time_cdc_with_mongodb/",
+                  "getting-started/tutorials/dataflow-s3-snowflake/",
+                  "getting-started/tutorials/continuous-materialized-view/",
+                  "getting-started/tutorials/derivations_acmebank/",
+                  "guides/system-specific-dataflows/firestore-to-dwh/"
+                ]
+              },
+              "getting-started/sso-setup/",
+              "getting-started/support/"
+            ]
+          },
+          {
+            "group": "Using Estuary Flow",
+            "pages": [
+              "guides",
+              "guides/create-dataflow/",
+              "guides/connect-network/",
+              "reference/backfilling-data/",
+              "guides/dashboard/",
+              "guides/get-started-with-flowctl/",
+              "guides/flowctl/",
+              "guides/customize-dataflows/",
+              "reference/deletions/",
+              "guides/how_to_generate_refresh_token/",
+              "guides/schema-evolution/"
+            ]
+          },
+          {
+            "group": "Transforming Data",
+            "pages": [
+              "guides/dbt-integration/",
+              "guides/transform_data_using_python/",
+              "guides/derivation_tutorial_sql/",
+              "guides/transform_data_using_typescript/",
+              "guides/flatten-array/",
+              "guides/howto_join_two_collections_typescript/"
+            ]
+          },
+          {
+            "group": "Advanced Features",
+            "pages": [
+              "reference/time-travel/",
+              "reference/Configuring-task-shards/",
+              "reference/working-logs-stats/",
+              "reference/openmetrics-api/",
+              "reference/organizing-catalogs/",
+              "guides/dekaf_reading_collections_from_kafka/"
+            ]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "concepts",
+              "concepts/captures/",
+              "concepts/catalogs/",
+              "concepts/collections/",
+              "concepts/connectors/",
+              "concepts/derivations/",
+              "concepts/flowctl/",
+              "concepts/import/",
+              "concepts/materialization/",
+              "concepts/schemas/",
+              "concepts/storage-mappings/",
+              "concepts/tests/",
+              "concepts/web-app/"
+            ]
+          },
+          {
+            "group": "Private & BYOC Deployments",
+            "pages": [
+              "private-byoc",
+              "private-byoc/byoc-deployments/",
+              "private-byoc/private-deployments/",
+              "private-byoc/privatelink/"
+            ]
+          },
+          {
+            "group": "Security & Compliance",
+            "pages": [
+              "security",
+              "security/security-features/",
+              "security/compliance/",
+              "reference/allow-ip-addresses/"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Connectors",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Reference/Connectors/",
             "pages": [
-              "api-reference/introduction"
+              "reference/Connectors/"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Capture Connectors",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "reference/Connectors/capture-connectors",
+              {
+                "group": "MariaDB",
+                "pages": [
+                  "reference/Connectors/capture-connectors/MariaDB",
+                  "reference/Connectors/capture-connectors/MariaDB/amazon-rds-mariadb/"
+                ]
+              },
+              {
+                "group": "Microsoft SQL Server",
+                "pages": [
+                  "reference/Connectors/capture-connectors/SQLServer",
+                  "reference/Connectors/capture-connectors/SQLServer/amazon-rds-sqlserver/",
+                  "reference/Connectors/capture-connectors/SQLServer/google-cloud-sql-sqlserver/",
+                  "reference/Connectors/capture-connectors/SQLServer/sqlserver-batch/"
+                ]
+              },
+              {
+                "group": "MySQL",
+                "pages": [
+                  "reference/Connectors/capture-connectors/MySQL",
+                  "reference/Connectors/capture-connectors/MySQL/amazon-rds-mysql/",
+                  "reference/Connectors/capture-connectors/MySQL/google-cloud-sql-mysql/",
+                  "reference/Connectors/capture-connectors/MySQL/mysql-batch/",
+                  "reference/Connectors/capture-connectors/MySQL/singlestore-batch/"
+                ]
+              },
+              {
+                "group": "PostgreSQL",
+                "pages": [
+                  "reference/Connectors/capture-connectors/PostgreSQL",
+                  "reference/Connectors/capture-connectors/PostgreSQL/Supabase/",
+                  "reference/Connectors/capture-connectors/PostgreSQL/amazon-rds-postgres/",
+                  "reference/Connectors/capture-connectors/PostgreSQL/google-cloud-sql-postgres/",
+                  "reference/Connectors/capture-connectors/PostgreSQL/neon-postgres/",
+                  "reference/Connectors/capture-connectors/PostgreSQL/postgres-batch/"
+                ]
+              },
+              "reference/Connectors/capture-connectors/HubSpot-real-time/",
+              "reference/Connectors/capture-connectors/HubSpot/",
+              {
+                "group": "MongoDB",
+                "pages": [
+                  "reference/Connectors/capture-connectors/MongoDB",
+                  "reference/Connectors/capture-connectors/MongoDB/amazon-documentdb/",
+                  "reference/Connectors/capture-connectors/MongoDB/azure-cosmosdb/"
+                ]
+              },
+              {
+                "group": "OracleDB",
+                "pages": [
+                  "reference/Connectors/capture-connectors/OracleDB",
+                  "reference/Connectors/capture-connectors/OracleDB/oracle-batch/"
+                ]
+              },
+              {
+                "group": "Salesforce",
+                "pages": [
+                  "reference/Connectors/capture-connectors/Salesforce",
+                  "reference/Connectors/capture-connectors/Salesforce/salesforce-historical-data/",
+                  "reference/Connectors/capture-connectors/Salesforce/salesforce-native/",
+                  "reference/Connectors/capture-connectors/Salesforce/salesforce-real-time/"
+                ]
+              },
+              "reference/Connectors/capture-connectors/aircall/",
+              "reference/Connectors/capture-connectors/airtable/",
+              "reference/Connectors/capture-connectors/alloydb/",
+              "reference/Connectors/capture-connectors/alpaca/",
+              "reference/Connectors/capture-connectors/amazon-ads/",
+              "reference/Connectors/capture-connectors/amazon-dynamodb/",
+              "reference/Connectors/capture-connectors/amazon-kinesis/",
+              "reference/Connectors/capture-connectors/amazon-redshift/",
+              "reference/Connectors/capture-connectors/amazon-s3/",
+              "reference/Connectors/capture-connectors/amazon-sqs/",
+              "reference/Connectors/capture-connectors/amplitude/",
+              "reference/Connectors/capture-connectors/apache-kafka/",
+              "reference/Connectors/capture-connectors/apple-app-store/",
+              "reference/Connectors/capture-connectors/asana/",
+              "reference/Connectors/capture-connectors/azure-blob-storage/",
+              "reference/Connectors/capture-connectors/bigquery-batch/",
+              "reference/Connectors/capture-connectors/bigquery-ga4-native/",
+              "reference/Connectors/capture-connectors/bing-ads/",
+              "reference/Connectors/capture-connectors/braintree/",
+              "reference/Connectors/capture-connectors/braze/",
+              "reference/Connectors/capture-connectors/brevo/",
+              "reference/Connectors/capture-connectors/chargebee-native/",
+              "reference/Connectors/capture-connectors/chargebee/",
+              "reference/Connectors/capture-connectors/confluence/",
+              "reference/Connectors/capture-connectors/criteo/",
+              "reference/Connectors/capture-connectors/datadog-ingest/",
+              "reference/Connectors/capture-connectors/datadog/",
+              "reference/Connectors/capture-connectors/dropbox/",
+              "reference/Connectors/capture-connectors/dynamics-365-finance-and-operations/",
+              "reference/Connectors/capture-connectors/exchange-rates/",
+              "reference/Connectors/capture-connectors/facebook-marketing/",
+              "reference/Connectors/capture-connectors/freshdesk/",
+              "reference/Connectors/capture-connectors/front/",
+              "reference/Connectors/capture-connectors/gainsight-nxt/",
+              "reference/Connectors/capture-connectors/gcs/",
+              "reference/Connectors/capture-connectors/genesys/",
+              "reference/Connectors/capture-connectors/github/",
+              "reference/Connectors/capture-connectors/gitlab/",
+              "reference/Connectors/capture-connectors/gladly/",
+              "reference/Connectors/capture-connectors/google-ads/",
+              "reference/Connectors/capture-connectors/google-analytics-4/",
+              "reference/Connectors/capture-connectors/google-analytics-data-api-native/",
+              "reference/Connectors/capture-connectors/google-analytics/",
+              "reference/Connectors/capture-connectors/google-drive/",
+              "reference/Connectors/capture-connectors/google-firestore/",
+              "reference/Connectors/capture-connectors/google-play/",
+              "reference/Connectors/capture-connectors/google-pubsub/",
+              "reference/Connectors/capture-connectors/google-search-console/",
+              "reference/Connectors/capture-connectors/google-sheets/",
+              "reference/Connectors/capture-connectors/greenhouse/",
+              "reference/Connectors/capture-connectors/harvest/",
+              "reference/Connectors/capture-connectors/http-file/",
+              "reference/Connectors/capture-connectors/http-ingest/",
+              "reference/Connectors/capture-connectors/incident-io/",
+              "reference/Connectors/capture-connectors/instagram/",
+              "reference/Connectors/capture-connectors/intercom-ingest/",
+              "reference/Connectors/capture-connectors/intercom-native/",
+              "reference/Connectors/capture-connectors/intercom/",
+              "reference/Connectors/capture-connectors/iterable/",
+              "reference/Connectors/capture-connectors/iterate/",
+              "reference/Connectors/capture-connectors/jira-ingest/",
+              "reference/Connectors/capture-connectors/jira-legacy/",
+              "reference/Connectors/capture-connectors/jira-native/",
+              "reference/Connectors/capture-connectors/jira/",
+              "reference/Connectors/capture-connectors/klaviyo-native/",
+              "reference/Connectors/capture-connectors/klaviyo/",
+              "reference/Connectors/capture-connectors/linkedin-ads/",
+              "reference/Connectors/capture-connectors/linkedin-pages/",
+              "reference/Connectors/capture-connectors/looker/",
+              "reference/Connectors/capture-connectors/mailchimp/",
+              "reference/Connectors/capture-connectors/marketo/",
+              "reference/Connectors/capture-connectors/mixpanel/",
+              "reference/Connectors/capture-connectors/monday/",
+              "reference/Connectors/capture-connectors/navan/",
+              "reference/Connectors/capture-connectors/netsuite-suiteanalytics/",
+              "reference/Connectors/capture-connectors/netsuite-suitetalk/",
+              "reference/Connectors/capture-connectors/notion/",
+              "reference/Connectors/capture-connectors/outreach/",
+              "reference/Connectors/capture-connectors/paypal-transaction/",
+              "reference/Connectors/capture-connectors/pendo/",
+              "reference/Connectors/capture-connectors/pinterest/",
+              "reference/Connectors/capture-connectors/qualtrics/",
+              "reference/Connectors/capture-connectors/recharge/",
+              "reference/Connectors/capture-connectors/redshift-batch/",
+              "reference/Connectors/capture-connectors/sage-intacct/",
+              "reference/Connectors/capture-connectors/sendgrid/",
+              "reference/Connectors/capture-connectors/sentry/",
+              "reference/Connectors/capture-connectors/sftp/",
+              "reference/Connectors/capture-connectors/shopify-native/",
+              "reference/Connectors/capture-connectors/shopify/",
+              "reference/Connectors/capture-connectors/slack/",
+              "reference/Connectors/capture-connectors/snapchat/",
+              "reference/Connectors/capture-connectors/snowflake/",
+              "reference/Connectors/capture-connectors/stripe-realtime/",
+              "reference/Connectors/capture-connectors/stripe/",
+              "reference/Connectors/capture-connectors/survey-monkey/",
+              "reference/Connectors/capture-connectors/tiktok/",
+              "reference/Connectors/capture-connectors/twilio/",
+              "reference/Connectors/capture-connectors/woocommerce/",
+              "reference/Connectors/capture-connectors/youtube-analytics/",
+              "reference/Connectors/capture-connectors/zendesk-chat/",
+              "reference/Connectors/capture-connectors/zendesk-support-native/",
+              "reference/Connectors/capture-connectors/zendesk-support/"
+            ]
+          },
+          {
+            "group": "Materialization Connectors",
+            "pages": [
+              "reference/Connectors/materialization-connectors",
+              "reference/Connectors/materialization-connectors/BigQuery/",
+              "reference/Connectors/materialization-connectors/Dekaf/",
+              "reference/Connectors/materialization-connectors/Elasticsearch/",
+              "reference/Connectors/materialization-connectors/Firebolt/",
+              "reference/Connectors/materialization-connectors/Google-sheets/",
+              "reference/Connectors/materialization-connectors/MySQL/",
+              "reference/Connectors/materialization-connectors/PostgreSQL/",
+              "reference/Connectors/materialization-connectors/Rockset/",
+              "reference/Connectors/materialization-connectors/SQLServer/",
+              "reference/Connectors/materialization-connectors/SQLite/",
+              "reference/Connectors/materialization-connectors/Snowflake/",
+              "reference/Connectors/materialization-connectors/alloydb/",
+              "reference/Connectors/materialization-connectors/amazon-dynamodb/",
+              "reference/Connectors/materialization-connectors/amazon-redshift/",
+              "reference/Connectors/materialization-connectors/amazon-s3-csv/",
+              "reference/Connectors/materialization-connectors/amazon-s3-iceberg/",
+              "reference/Connectors/materialization-connectors/amazon-s3-parquet/",
+              "reference/Connectors/materialization-connectors/apache-iceberg/",
+              "reference/Connectors/materialization-connectors/apache-kafka/",
+              "reference/Connectors/materialization-connectors/azure-blob-parquet/",
+              "reference/Connectors/materialization-connectors/azure-fabric-warehouse/",
+              "reference/Connectors/materialization-connectors/databricks/",
+              "reference/Connectors/materialization-connectors/google-gcs-csv/",
+              "reference/Connectors/materialization-connectors/google-gcs-parquet/",
+              "reference/Connectors/materialization-connectors/google-pubsub/",
+              "reference/Connectors/materialization-connectors/http-webhook/",
+              "reference/Connectors/materialization-connectors/mongodb/",
+              "reference/Connectors/materialization-connectors/motherduck/",
+              "reference/Connectors/materialization-connectors/mysql-heatwave/",
+              "reference/Connectors/materialization-connectors/pinecone/",
+              "reference/Connectors/materialization-connectors/slack/",
+              "reference/Connectors/materialization-connectors/starburst/",
+              "reference/Connectors/materialization-connectors/timescaledb/"
+            ]
+          },
+          {
+            "group": "Reference/Connectors/dekaf/",
+            "pages": [
+              "reference/Connectors/dekaf/"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
-  }
+  "logo": "/images/img/estuary-new.png"
 }
