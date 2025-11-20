@@ -1,97 +1,140 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Estuary Flow Documentation"
+description: "Real-time data movement and transformation for the whole data team"
 ---
 
-## Setting up
+## Welcome to Estuary Flow
 
-Get your documentation site up and running in minutes.
+Estuary Flow is a unified data movement and transformation platform that synchronizes your systems – SaaS, databases, streaming, and more – around the same datasets, updating in milliseconds. Flow combines the easy cross-system integration of an ELT tool with a flexible streaming backbone.
 
 <Card
-  title="Start here"
+  title="Quick Start Guide"
   icon="rocket"
-  href="/quickstart"
+  href="/getting-started/quickstart/"
   horizontal
 >
-  Follow our three step quickstart guide.
+  Get up and running with your first real-time data flow in minutes
 </Card>
 
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
+## What Can You Do with Flow?
 
 <Columns cols={2}>
   <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
+    title="Change Data Capture"
+    icon="database"
+    href="/getting-started/tutorials/postgresql_cdc_to_snowflake/"
   >
-    Edit your docs locally and preview them in real time.
+    Stream changes from MySQL, PostgreSQL, MongoDB, and more to your analytics warehouse
   </Card>
   <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
+    title="SaaS Data Integration"
+    icon="cloud"
+    href="/reference/Connectors/capture-connectors"
   >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+    Capture and organize data from Hubspot, Salesforce, Stripe, and 100+ other sources
   </Card>
   <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
-
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
+    title="Real-Time Transformations"
     icon="code"
-    href="/essentials/code"
+    href="/guides/dbt-integration/"
   >
-    Add sample code to demonstrate how to use your product.
+    Transform data in-flight with SQL, TypeScript, Python, or dbt
   </Card>
   <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
+    title="Streaming Lakehouse"
+    icon="warehouse"
+    href="/reference/Connectors/materialization-connectors/apache-iceberg/"
   >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
+    Build modern data lakehouses with Apache Iceberg, Delta Lake, and more
   </Card>
 </Columns>
 
-## Need inspiration?
+## Get Started
+
+<Columns cols={3}>
+  <Card
+    title="Who Should Use Flow"
+    icon="users"
+    href="/getting-started/who-should-use-flow/"
+  >
+    Learn if Flow is right for your use case
+  </Card>
+  <Card
+    title="Tutorials"
+    icon="graduation-cap"
+    href="/getting-started/tutorials"
+  >
+    Step-by-step guides for common scenarios
+  </Card>
+  <Card
+    title="Concepts"
+    icon="book"
+    href="/concepts"
+  >
+    Understand Flow's key concepts and architecture
+  </Card>
+</Columns>
+
+## Explore Connectors
+
+Flow supports 100+ connectors for capturing and materializing data.
+
+<Columns cols={2}>
+  <Card
+    title="Capture Connectors"
+    icon="download"
+    href="/reference/Connectors/capture-connectors"
+  >
+    Read from databases, SaaS apps, message queues, and more
+  </Card>
+  <Card
+    title="Materialization Connectors"
+    icon="upload"
+    href="/reference/Connectors/materialization-connectors"
+  >
+    Write to warehouses, databases, storage systems, and more
+  </Card>
+</Columns>
+
+## Popular Resources
+
+<Columns cols={2}>
+  <Card
+    title="Create a Dataflow"
+    icon="circle-play"
+    href="/guides/create-dataflow/"
+  >
+    Learn how to create your first data flow
+  </Card>
+  <Card
+    title="Schema Evolution"
+    icon="arrows-rotate"
+    href="/guides/schema-evolution/"
+  >
+    Handle schema changes automatically
+  </Card>
+  <Card
+    title="dbt Integration"
+    icon="database"
+    href="/guides/dbt-integration/"
+  >
+    Integrate with your dbt workflows
+  </Card>
+  <Card
+    title="Security & Compliance"
+    icon="shield"
+    href="/security"
+  >
+    Enterprise-grade security and compliance
+  </Card>
+</Columns>
+
+## Need Help?
 
 <Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
+  title="Support & Community"
+  icon="comments"
+  href="/getting-started/support/"
 >
-  Browse our showcase of exceptional documentation sites.
+  Get help from our team and community
 </Card>
