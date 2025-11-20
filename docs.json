@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "aspen",
+  "theme": "maple",
   "name": "Estuary Flow Documentation",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#55D799",
-    "dark": "#0D9373"
+    "primary": "#5072EB",
+    "light": "#04192B",
+    "dark": "#6ED5D6"
   },
   "favicon": "/favicon.svg",
   "navigation": {
