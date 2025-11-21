@@ -135,7 +135,8 @@ If you encounter this error, you have the following options:
 - **Upgrade** your PostgreSQL database to version 16 or later
 - **Capture from the primary instance** instead of the standby
 - Use the [PostgreSQL Batch Connector](/reference/Connectors/capture-connectors/PostgreSQL/postgres-batch/) to capture the data
-  </Warning>
+
+</Warning>
 
 In addition to the read-only capture requirement that there be frequent writes to at least one captured table, the `hot_standby_feedback` setting must be enabled on the standby from which you intend to capture.
 

@@ -7,7 +7,7 @@
     "light": "#6ED5D6",
     "dark": "#04192B"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
   "seo": {
     "indexHiddenPages": true
   },

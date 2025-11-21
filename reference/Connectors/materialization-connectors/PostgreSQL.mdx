@@ -26,13 +26,13 @@ In addition to standard PostgreSQL, this connector supports cloud-based PostgreS
 To connect securely, you can either enable direct access for Flows's IP or use an SSH tunnel.
 
 <Check>
-  To configure the connector, you must specify the database address in the format `host:port`. (You can also supply `host` only; the connector will use the port `5432` by default, which is correct in many cases.) You can find the host and port in the following locations in each platform's console:
+To configure the connector, you must specify the database address in the format `host:port`. (You can also supply `host` only; the connector will use the port `5432` by default, which is correct in many cases.) You can find the host and port in the following locations in each platform's console:
 
 - Amazon RDS and Amazon Aurora: host as Endpoint; port as Port.
 - Google Cloud SQL: host as Private IP Address; port is always `5432`. You may need to [configure private IP](https://cloud.google.com/sql/docs/postgres/configure-private-ip) on your database.
 - Azure Database: host as Server Name; port under Connection Strings (usually `5432`).
 - TimescaleDB: host as Host; port as Port.
-  </Check>
+</Check>
 
 ### Azure Database for PostgreSQL[​](#azure-database-for-postgresql "Direct link to Azure Database for PostgreSQL")
 

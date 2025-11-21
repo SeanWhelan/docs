@@ -137,12 +137,12 @@ You must configure your database to allow connections from Estuary. There are tw
   2. Configure your connector as described in the [configuration](#configuration) section above, with the addition of the `networkTunnel` stanza to enable the SSH tunnel, if using. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
 
 <Check>
-  To configure the connector, you must specify the database address in the format `host:port`. (You can also supply `host` only; the connector will use the port `3306` by default, which is correct in many cases.) You can find the host and port in the following locations in each platform's console:
+To configure the connector, you must specify the database address in the format `host:port`. (You can also supply `host` only; the connector will use the port `3306` by default, which is correct in many cases.) You can find the host and port in the following locations in each platform's console:
 
 - Amazon RDS and Amazon Aurora: host as Endpoint; port as Port.
 - Google Cloud SQL: host as Private IP Address; port is always `3306`. You may need to [configure private IP](https://cloud.google.com/sql/docs/mysql/configure-private-ip) on your database.
 - Azure Database: host as Server Name; port under Connection Strings (usually `3306`).
-  </Check>
+</Check>
 
 ## Delta updates[​](#delta-updates "Direct link to Delta updates")
 

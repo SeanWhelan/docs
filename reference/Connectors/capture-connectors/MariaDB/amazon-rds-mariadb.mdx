@@ -31,12 +31,12 @@ To use this connector, you'll need a MariaDB database setup with the following.
 
    2. Edit the VPC security group associated with your database, or create a new VPC security group and associate it with the database. Refer to the [steps in the Amazon documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.RDSSecurityGroups.html#Overview.RDSSecurityGroups.Create). Create a new inbound rule and a new outbound rule that allow all traffic from the [Estuary IP addresses](/reference/allow-ip-addresses/).
 
-   <Info>
-  Alternatively, you can allow secure connections via SSH tunneling. To do so:
+<Info>
+Alternatively, you can allow secure connections via SSH tunneling. To do so:
 
-   - Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
-   - When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
-     </Info>
+- Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
+- When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
+</Info>
 
 2. Create a RDS parameter group to enable replication in MariaDB.
 
