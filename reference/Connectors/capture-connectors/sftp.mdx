@@ -7,13 +7,13 @@ It is available for use in the Flow web application. For local development or op
 
 ## Prerequisites[​](#prerequisites "Direct link to Prerequisites")
 
-You'll need an SFTP server that can accept connections from the [Estuary Flow IP addresses](/reference/allow-ip-addresses/) using password authentication.
+You'll need an SFTP server that can accept connections from the [Estuary IP addresses](/reference/allow-ip-addresses/) using password authentication.
 
 ## Subdirectories and Symbolic Links[​](#subdirectories-and-symbolic-links "Direct link to Subdirectories and Symbolic Links")
 
 The connector must be configured with a `Directory` to capture files from. It will also descend into and capture files in normal subdirectories of the configured `Directory`.
 
-Symbolic links to files are captured from the referent files. Symbolic links to subdirectories are *not* captured, although the configured `Directory` may itself be a symbolic link.
+Symbolic links to files are captured from the referent files. Symbolic links to subdirectories are _not_ captured, although the configured `Directory` may itself be a symbolic link.
 
 ## File Capturing Order[​](#file-capturing-order "Direct link to File Capturing Order")
 
@@ -27,14 +27,14 @@ As an example, consider a directory structure like the following with a data fil
 /root/  a/  b/data.csv  c/
 ```
 
-* In the normal mode of operation (`Ascending Keys` not set) the path `/root/b/data.csv` will initially be captured. Any added files will be captured by the connector on an on-going basis as they have increasingly more recent modification times.
+- In the normal mode of operation (`Ascending Keys` not set) the path `/root/b/data.csv` will initially be captured. Any added files will be captured by the connector on an on-going basis as they have increasingly more recent modification times.
 
-* With `Ascending Keys` set the path `/root/b/data.csv` will initially be captured, but after that only added files in a higher lexical order will be captured:
+- With `Ascending Keys` set the path `/root/b/data.csv` will initially be captured, but after that only added files in a higher lexical order will be captured:
 
-  * Any file added to the directory `/root/a/` will *not* be captured, becuase `/root/a/` comes before `/root/b/`.
-  * Any file added to the directory `/root/c/` *will* captured, because `/root/c/` comes after `/root/b/`.
-  * A file added to the directory `/root/b/` may be captured if its name comes after `data.csv`.
-  * This ordering applies on an on-going basis. If a file is added to `/root/c/`, after that only files with a higher lexical ordering than that file to be captured.
+  - Any file added to the directory `/root/a/` will _not_ be captured, becuase `/root/a/` comes before `/root/b/`.
+  - Any file added to the directory `/root/c/` _will_ captured, because `/root/c/` comes after `/root/b/`.
+  - A file added to the directory `/root/b/` may be captured if its name comes after `data.csv`.
+  - This ordering applies on an on-going basis. If a file is added to `/root/c/`, after that only files with a higher lexical ordering than that file to be captured.
 
 Setting `Ascending Keys` is only recommended if you have strict control over the naming of files and can ensure they are added in increasing lexical ordering.
 
@@ -80,72 +80,73 @@ However, the automatic detection may be incorrect in some cases. To fix or preve
 
 The parser configuration includes:
 
-* **Compression**: Specify how the bucket contents are compressed. If no compression type is specified, the connector will try to determine the compression type automatically. Options are:
+- **Compression**: Specify how the bucket contents are compressed. If no compression type is specified, the connector will try to determine the compression type automatically. Options are:
 
-  * **zip**
-  * **gzip**
-  * **zstd**
-  * **none**
+  - **zip**
+  - **gzip**
+  - **zstd**
+  - **none**
 
-* **Format**: Specify the data format, which determines how it will be parsed. Options are:
+- **Format**: Specify the data format, which determines how it will be parsed. Options are:
 
-  * **Auto**: If no format is specified, the connector will try to determine it automatically.
-  * **Avro**
-  * **CSV**
-  * **JSON**
-  * **Protobuf**
-  * **W3C Extended Log**
+  - **Auto**: If no format is specified, the connector will try to determine it automatically.
+  - **Avro**
+  - **CSV**
+  - **JSON**
+  - **Protobuf**
+  - **W3C Extended Log**
 
   <Info>
-    At this time, Flow only supports SFTP captures with data of a single file type. Support for multiple file types, which can be configured on a per-binding basis, will be added in the future.
+  At this time, Flow only supports SFTP captures with data of a single file type. Support for multiple file types, which can be configured on a per-binding basis, will be added in the future.
 
-    For now, use a prefix in the endpoint configuration to limit the scope of each capture to data of a single file type.
+  For now, use a prefix in the endpoint configuration to limit the scope of each capture to data of a single file type.
+
   </Info>
 
 #### CSV configuration[​](#csv-configuration "Direct link to CSV configuration")
 
 CSV files include several additional properties that are important to the parser. In most cases, Flow is able to automatically determine the correct values, but you may need to specify for unusual datasets. These properties are:
 
-* **Delimiter**. Options are:
+- **Delimiter**. Options are:
 
-  * Comma (`","`)
-  * Pipe (`"|"`)
-  * Space (`"0x20"`)
-  * Semicolon (`";"`)
-  * Tab (`"0x09"`)
-  * Vertical tab (`"0x0B"`)
-  * Unit separator (`"0x1F"`)
-  * SOH (`"0x01"`)
-  * Auto
+  - Comma (`","`)
+  - Pipe (`"|"`)
+  - Space (`"0x20"`)
+  - Semicolon (`";"`)
+  - Tab (`"0x09"`)
+  - Vertical tab (`"0x0B"`)
+  - Unit separator (`"0x1F"`)
+  - SOH (`"0x01"`)
+  - Auto
 
-* **Encoding** type, specified by its [WHATWG label](https://encoding.spec.whatwg.org/#names-and-labels).
+- **Encoding** type, specified by its [WHATWG label](https://encoding.spec.whatwg.org/#names-and-labels).
 
-* Optionally, an **Error threshold**, as an acceptable percentage of errors. If set to a number greater than zero, malformed rows that fall within the threshold will be excluded from the capture.
+- Optionally, an **Error threshold**, as an acceptable percentage of errors. If set to a number greater than zero, malformed rows that fall within the threshold will be excluded from the capture.
 
-* **Escape characters**. Options are:
+- **Escape characters**. Options are:
 
-  * Backslash (`"\\"`)
-  * Disable escapes (`""`)
-  * Auto
+  - Backslash (`"\\"`)
+  - Disable escapes (`""`)
+  - Auto
 
-* Optionally, a list of column **Headers**, if not already included in the first row of the CSV file.
+- Optionally, a list of column **Headers**, if not already included in the first row of the CSV file.
 
   If any headers are provided, it is assumed that the provided list of headers is complete and authoritative. The first row of your CSV file will be assumed to be data (not headers), and you must provide a header value for every column in the file.
 
-* **Line ending** values
+- **Line ending** values
 
-  * CRLF (`"\\r\\n"`) (Windows)
-  * CR (`"\\r"`)
-  * LF (`"\\n"`)
-  * Record Separator (`"0x1E"`)
-  * Auto
+  - CRLF (`"\\r\\n"`) (Windows)
+  - CR (`"\\r"`)
+  - LF (`"\\n"`)
+  - Record Separator (`"0x1E"`)
+  - Auto
 
-* **Quote character**
+- **Quote character**
 
-  * Double Quote (`"\""`)
-  * Single Quote (`"`)
-  * Disable Quoting (`""`)
-  * Auto
+  - Double Quote (`"\""`)
+  - Single Quote (`"`)
+  - Disable Quoting (`""`)
+  - Auto
 
 The sample specification [above](#sample) includes these fields.
 

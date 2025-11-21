@@ -11,42 +11,46 @@ This connector supports MySQL on major cloud providers, as well as self-hosted i
 
 Setup instructions are provided for the following platforms:
 
-* [Self-hosted MySQL](#self-hosted-mysql)
-* [Amazon RDS](/reference/Connectors/capture-connectors/MySQL/amazon-rds-mysql/)
-* [Amazon Aurora](#amazon-aurora)
-* [Google Cloud SQL](/reference/Connectors/capture-connectors/MySQL/google-cloud-sql-mysql/)
-* [Azure Database for MySQL](#azure-database-for-mysql)
+- [Self-hosted MySQL](#self-hosted-mysql)
+- [Amazon RDS](/reference/Connectors/capture-connectors/MySQL/amazon-rds-mysql/)
+- [Amazon Aurora](#amazon-aurora)
+- [Google Cloud SQL](/reference/Connectors/capture-connectors/MySQL/google-cloud-sql-mysql/)
+- [Azure Database for MySQL](#azure-database-for-mysql)
 
 ## Prerequisites[​](#prerequisites "Direct link to Prerequisites")
 
 To use this connector, you'll need a MySQL database setup with the following.
 
-* The [`binlog_format`](https://dev.mysql.com/doc/refman/8.4/en/replication-options-binary-log.html#sysvar_binlog_format) system variable must be set to `ROW` (the default value).
+- The [`binlog_format`](https://dev.mysql.com/doc/refman/8.4/en/replication-options-binary-log.html#sysvar_binlog_format) system variable must be set to `ROW` (the default value).
 
-* The [binary log expiration period](https://dev.mysql.com/doc/refman/8.4/en/replication-options-binary-log.html#sysvar_binlog_expire_logs_seconds) should be at least 7 days.
-  * This value may be set lower if necessary, but we [discourage](#insufficient-binlog-retention) doing so as this may increase the likelihood of unrecoverable failures.
+- The [binary log expiration period](https://dev.mysql.com/doc/refman/8.4/en/replication-options-binary-log.html#sysvar_binlog_expire_logs_seconds) should be at least 7 days.
 
-* A database user with appropriate permissions:
+  - This value may be set lower if necessary, but we [discourage](#insufficient-binlog-retention) doing so as this may increase the likelihood of unrecoverable failures.
 
-  * `REPLICATION CLIENT` and `REPLICATION SLAVE` privileges.
-  * Permission to read the tables being captured.
-  * Permission to read from `information_schema` tables, if automatic discovery is used.
+- A database user with appropriate permissions:
 
-* If the table(s) to be captured include columns of type `DATETIME`, the `time_zone` system variable must be set to an IANA zone name or numerical offset or the capture configured with a `timezone` to use by default.
+  - `REPLICATION CLIENT` and `REPLICATION SLAVE` privileges.
+  - Permission to read the tables being captured.
+  - Permission to read from `information_schema` tables, if automatic discovery is used.
+
+- If the table(s) to be captured include columns of type `DATETIME`, the `time_zone` system variable must be set to an IANA zone name or numerical offset or the capture configured with a `timezone` to use by default.
 
 <Check>
-  To capture data from databases hosted on your internal network, you may need to use [SSH tunneling](/guides/connect-network/). If you have a [private deployment](/getting-started/deployment-options/#private-deployment), you can also use private cloud networking features to reach your database.
+  To capture data from databases hosted on your internal network, you may need
+  to use [SSH tunneling](/guides/connect-network/). If you have a [private
+  deployment](/getting-started/deployment-options/#private-deployment), you can
+  also use private cloud networking features to reach your database.
 </Check>
 
 ## Setup[​](#setup "Direct link to Setup")
 
 To meet these requirements, follow the steps for your hosting type.
 
-* [Self-hosted MySQL](#self-hosted-mysql)
-* [Amazon RDS](/reference/Connectors/capture-connectors/MySQL/amazon-rds-mysql/)
-* [Amazon Aurora](#amazon-aurora)
-* [Google Cloud SQL](/reference/Connectors/capture-connectors/MySQL/google-cloud-sql-mysql/)
-* [Azure Database for MySQL](#azure-database-for-mysql)
+- [Self-hosted MySQL](#self-hosted-mysql)
+- [Amazon RDS](/reference/Connectors/capture-connectors/MySQL/amazon-rds-mysql/)
+- [Amazon Aurora](#amazon-aurora)
+- [Google Cloud SQL](/reference/Connectors/capture-connectors/MySQL/google-cloud-sql-mysql/)
+- [Azure Database for MySQL](#azure-database-for-mysql)
 
 ### Self-hosted MySQL[​](#self-hosted-mysql "Direct link to Self-hosted MySQL")
 
@@ -74,30 +78,30 @@ SET PERSIST time_zone = '-05:00'
 
 You must apply some of the settings to the entire Aurora DB cluster, and others to a database instance within the cluster. For each step, take note of which entity you're working with.
 
-1. Allow connections between the database and Estuary Flow. There are two ways to do this: by granting direct access to Flow's IP or by creating an SSH tunnel.
+1. Allow connections between the database and Estuary. There are two ways to do this: by granting direct access to Flow's IP or by creating an SSH tunnel.
 
    1. To allow direct access:
 
-      * [Modify the instance](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Modifying.html#Aurora.Modifying.Instance), choosing **Publicly accessible** in the **Connectivity** settings.
-      * Edit the VPC security group associated with your instance, or create a new VPC security group and associate it with the instance as described in [the Amazon documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.RDSSecurityGroups.html#Overview.RDSSecurityGroups.Create). Create a new inbound rule and a new outbound rule that allow all traffic from the [Estuary Flow IP addresses](/reference/allow-ip-addresses/).
+      - [Modify the instance](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Modifying.html#Aurora.Modifying.Instance), choosing **Publicly accessible** in the **Connectivity** settings.
+      - Edit the VPC security group associated with your instance, or create a new VPC security group and associate it with the instance as described in [the Amazon documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.RDSSecurityGroups.html#Overview.RDSSecurityGroups.Create). Create a new inbound rule and a new outbound rule that allow all traffic from the [Estuary IP addresses](/reference/allow-ip-addresses/).
 
    2. To allow secure connections via SSH tunneling:
 
-      * Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
-      * When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
+      - Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
+      - When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
 
 2. Create a RDS parameter group to enable replication on your Aurora DB cluster.
 
    1. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html#USER_WorkingWithParamGroups.CreatingCluster). Create a unique name and description and set the following properties:
 
-      * **Family**: aurora-mysql8.0
-      * **Type**: DB ClusterParameter group
+      - **Family**: aurora-mysql8.0
+      - **Type**: DB ClusterParameter group
 
    2. [Modify the new parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html#USER_WorkingWithParamGroups.ModifyingCluster) and update the following parameters:
 
-      * binlog\_format: ROW
-      * binlog\_row\_metadata: FULL
-      * read\_only: 0
+      - binlog_format: ROW
+      - binlog_row_metadata: FULL
+      - read_only: 0
 
    3. [Associate the parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html#USER_WorkingWithParamGroups.AssociatingCluster) with the DB cluster. While you're modifying the cluster, also set [Backup Retention Period](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html) to 7 days.
 
@@ -119,16 +123,16 @@ CALL mysql.rds_set_configuration('binlog retention hours', 168);
 
 ### Azure Database for MySQL[​](#azure-database-for-mysql "Direct link to Azure Database for MySQL")
 
-1. Allow connections between the database and Estuary Flow. There are two ways to do this: by granting direct access to Flow's IP or by creating an SSH tunnel.
+1. Allow connections between the database and Estuary. There are two ways to do this: by granting direct access to Flow's IP or by creating an SSH tunnel.
 
    1. To allow direct access:
 
-      * Create a new [firewall rule](https://docs.microsoft.com/en-us/azure/mysql/flexible-server/how-to-manage-firewall-portal#create-a-firewall-rule-after-server-is-created) that grants access to the [Estuary Flow IP addresses](/reference/allow-ip-addresses/).
+      - Create a new [firewall rule](https://docs.microsoft.com/en-us/azure/mysql/flexible-server/how-to-manage-firewall-portal#create-a-firewall-rule-after-server-is-created) that grants access to the [Estuary IP addresses](/reference/allow-ip-addresses/).
 
    2. To allow secure connections via SSH tunneling:
 
-      * Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
-      * When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
+      - Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
+      - When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
 
 2. Set the `binlog_expire_logs_seconds` [server perameter](https://docs.microsoft.com/en-us/azure/mysql/single-server/concepts-server-parameters#configurable-server-parameters) to `2592000`.
 
@@ -158,26 +162,30 @@ If you intend to capture tables including columns of the type `DATETIME`, and `t
 
 You can:
 
-* Specify a numerical offset from UTC.
+- Specify a numerical offset from UTC.
 
-  * For MySQL version 8.0.19 or higher, values from `-13:59` to `+14:00`, inclusive, are permitted.
-  * Prior to MySQL 8.0.19, values from `-12:59` to `+13:00`, inclusive, are permitted
+  - For MySQL version 8.0.19 or higher, values from `-13:59` to `+14:00`, inclusive, are permitted.
+  - Prior to MySQL 8.0.19, values from `-12:59` to `+13:00`, inclusive, are permitted
 
-* Specify a named timezone in [IANA timezone format](https://www.iana.org/time-zones).
+- Specify a named timezone in [IANA timezone format](https://www.iana.org/time-zones).
 
-* If you're using Amazon Aurora, create or modify the [DB cluster parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html) associated with your MySQL database. [Set](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html#USER_WorkingWithParamGroups.ModifyingCluster) the `time_zone` parameter to the correct value.
+- If you're using Amazon Aurora, create or modify the [DB cluster parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html) associated with your MySQL database. [Set](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html#USER_WorkingWithParamGroups.ModifyingCluster) the `time_zone` parameter to the correct value.
 
 For example, if you're located in New Jersey, USA, you could set `time_zone` to `-05:00` or `-04:00`, depending on the time of year. Because this region observes daylight savings time, you'd be responsible for changing the offset. Alternatively, you could set `time_zone` to `America/New_York`, and time changes would occur automatically.
 
 If using IANA time zones, your database must include time zone tables. [Learn more in the MySQL docs](https://dev.mysql.com/doc/refman/8.0/en/time-zone-support.html).
 
 <Check>
-  If you are unable to set the `time_zone` in the database and need to capture tables with `DATETIME` columns, the capture can be configured to assume a time zone using the `timezone` configuration property (see below). The `timezone` configuration property can be set as a numerical offset or IANA timezone format.
+  If you are unable to set the `time_zone` in the database and need to capture
+  tables with `DATETIME` columns, the capture can be configured to assume a time
+  zone using the `timezone` configuration property (see below). The `timezone`
+  configuration property can be set as a numerical offset or IANA timezone
+  format.
 </Check>
 
 ## Backfills and performance considerations[​](#backfills-and-performance-considerations "Direct link to Backfills and performance considerations")
 
-When the MySQL capture is initiated, by default, the connector first *backfills*, or captures the targeted tables in their current state. It then transitions to capturing change events on an ongoing basis.
+When the MySQL capture is initiated, by default, the connector first _backfills_, or captures the targeted tables in their current state. It then transitions to capturing change events on an ongoing basis.
 
 This is desirable in most cases, as it ensures that a complete view of your tables is captured into Flow. However, you may find it appropriate to skip the backfill, especially for extremely large tables.
 
@@ -217,7 +225,8 @@ See [connectors](/concepts/connectors/#using-connectors) to learn more about usi
 <Info>
   When you configure this connector in the web application, the automatic **discovery** process sets up a binding for *most* tables it finds in your database, but there are exceptions.
 
-  Tables in the MySQL system schemas `information_schema`, `mysql`, `performance_schema`, and `sys` will not be discovered. You can add bindings for such tables manually.
+Tables in the MySQL system schemas `information_schema`, `mysql`, `performance_schema`, and `sys` will not be discovered. You can add bindings for such tables manually.
+
 </Info>
 
 ### Sample[​](#sample "Direct link to Sample")

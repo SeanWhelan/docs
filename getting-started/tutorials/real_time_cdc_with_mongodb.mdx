@@ -1,6 +1,6 @@
 ---
 title: "Real-Time CDC with MongoDB"
-description: "A step-by-step guide to setting up Change Data Capture (CDC) from MongoDB with Estuary Flow."
+description: "A step-by-step guide to setting up Change Data Capture (CDC) from MongoDB with Estuary."
 ---
 
 ![High level architecture](/images/getting-started/tutorials/real_time_cdc_with_mongodb/estuary-marketing-strapi-uploads/uploads/image4_5c651b17d6/image4_5c651b17d6.png)
@@ -9,7 +9,7 @@ MongoDB is still one of the most popular document stores powering web applicatio
 
 Because it’s the centerpiece of so many applications, it’s a common data engineering challenge to extract data out of MongoDB in order to power a data warehouse or enable other downstream use cases, like AI or operational analytics.
 
-This tutorial will guide you through using Estuary Flow to capture data from MongoDB using change data capture (CDC), requiring minimal configuration. By following these steps, you can empower your organization to leverage its application data in just a few minutes.
+This tutorial will guide you through using Estuary to capture data from MongoDB using change data capture (CDC), requiring minimal configuration. By following these steps, you can empower your organization to leverage its application data in just a few minutes.
 
 ## Video tutorial[​](#video-tutorial "Direct link to Video tutorial")
 
@@ -31,37 +31,43 @@ This approach ensures efficient data propagation to downstream systems, scalabil
 
 MongoDB supports various types of change events, each catering to different aspects of database operations. For data synchronization, the following three events are the only ones that matter:
 
-* Insert Events: Triggered when new documents are inserted into a collection.
+- Insert Events: Triggered when new documents are inserted into a collection.
 
 ![Create event](/images/getting-started/tutorials/real_time_cdc_with_mongodb/estuary-marketing-strapi-uploads/uploads/image5_b1229ced25/image5_b1229ced25.png)
 
-* Update Events: Fired upon modifications to existing documents, including field updates and replacements.
+- Update Events: Fired upon modifications to existing documents, including field updates and replacements.
 
 ![Update event](/images/getting-started/tutorials/real_time_cdc_with_mongodb/estuary-marketing-strapi-uploads/uploads/image6_e1604c59d7/image6_e1604c59d7.png)
 
-* Delete Events: Signaled when documents are removed from a collection.
+- Delete Events: Signaled when documents are removed from a collection.
 
 <Note>
-  In MongoDB, if you delete a key from a document, the corresponding change event that gets fired is an "update" event. This may seem counterintuitive at first, but in MongoDB, updates are atomic operations that can modify specific fields within a document, including removing keys. So, when a key is deleted from a document, MongoDB interprets it as an update operation where the specific field (i.e., the key) is being removed, resulting in an "update" event being generated in the oplog.
+  In MongoDB, if you delete a key from a document, the corresponding change
+  event that gets fired is an "update" event. This may seem counterintuitive at
+  first, but in MongoDB, updates are atomic operations that can modify specific
+  fields within a document, including removing keys. So, when a key is deleted
+  from a document, MongoDB interprets it as an update operation where the
+  specific field (i.e., the key) is being removed, resulting in an "update"
+  event being generated in the oplog.
 </Note>
 
 ![Delete event](/images/getting-started/tutorials/real_time_cdc_with_mongodb/estuary-marketing-strapi-uploads/uploads/image3_5dc8c9ea52/image3_5dc8c9ea52.png)
 
-## Introduction to Estuary Flow[]()[​](#introduction-to-estuary-flow "Direct link to introduction-to-estuary-flow")
+## Introduction to Estuary[]()[​](#introduction-to-estuary-flow "Direct link to introduction-to-estuary-flow")
 
 Estuary is the best tool for integrating CDC streams from MongoDB. Here are a few reasons why:
 
-* Unlike ELT vendors, Estuary does streaming CDC and incremental snapshots, not full snapshots or batch change data extraction. This puts less of a load on the source database and lowers latency.
+- Unlike ELT vendors, Estuary does streaming CDC and incremental snapshots, not full snapshots or batch change data extraction. This puts less of a load on the source database and lowers latency.
 
-* Estuary also extracts exactly-and-only-once. As it streams snapshots and changes data it also stores it as a collection for later reuse, such as for backfilling or stream replay. ELT vendors require you to re-extract every time to want to resend the data or restart a change data stream.
+- Estuary also extracts exactly-and-only-once. As it streams snapshots and changes data it also stores it as a collection for later reuse, such as for backfilling or stream replay. ELT vendors require you to re-extract every time to want to resend the data or restart a change data stream.
 
-* Estuary supports both real-time and batch. Its streaming latency is within 100ms, and it always extracts in real-time. But it supports any latency from real-time to hours or days for destinations.
+- Estuary supports both real-time and batch. Its streaming latency is within 100ms, and it always extracts in real-time. But it supports any latency from real-time to hours or days for destinations.
 
-* Estuary guarantees change data is delivered exactly once.
+- Estuary guarantees change data is delivered exactly once.
 
-* Estuary can also maintain type I and type II slowly changing dimensions directly into a target.
+- Estuary can also maintain type I and type II slowly changing dimensions directly into a target.
 
-* Estuary streaming has 50MB/sec per connection per table throughput rates, which is 5-10x any other benchmarks for CDC. It also scales horizontally to increase throughput.
+- Estuary streaming has 50MB/sec per connection per table throughput rates, which is 5-10x any other benchmarks for CDC. It also scales horizontally to increase throughput.
 
 Time to build a real-time CDC pipeline!
 
@@ -69,13 +75,13 @@ Time to build a real-time CDC pipeline!
 
 To follow along with the tutorial, you’ll need the following:
 
-* An Estuary Flow account. If you haven’t yet, sign up for free [here](https://dashboard.estuary.dev/register). A fully-managed MongoDB Capture connector is ready for you to get started.
+- An Estuary account. If you haven’t yet, sign up for free [here](https://dashboard.estuary.dev/register). A fully-managed MongoDB Capture connector is ready for you to get started.
 
-* A MongoDB Atlas cluster: This tutorial uses Atlas as the source database, but Estuary supports other types of MongoDB deployments as well.
+- A MongoDB Atlas cluster: This tutorial uses Atlas as the source database, but Estuary supports other types of MongoDB deployments as well.
 
 ## Setting up MongoDB[]()[​](#setting-up-mongodb "Direct link to setting-up-mongodb")
 
-To prepare MongoDB for Estuary Flow, you need to ensure the following prerequisites are met:
+To prepare MongoDB for Estuary, you need to ensure the following prerequisites are met:
 
 ### Credentials[]()[​](#credentials "Direct link to credentials")
 
@@ -101,23 +107,24 @@ Let’s start by provisioning our database. As you can see, for this tutorial, y
 
 ![MongoDB deployment options](/images/getting-started/tutorials/real_time_cdc_with_mongodb/estuary-marketing-strapi-uploads/uploads/image12_664e3a1404/image12_664e3a1404.png)
 
-After the cluster has finished provisioning, we’ll need to make sure that Estuary Flow is able to connect to the database. For this, the only requirement with MongoDB Atlas is allowlisting the [Estuary Flow IP addresses](/reference/allow-ip-addresses/).
+After the cluster has finished provisioning, we’ll need to make sure that Estuary is able to connect to the database. For this, the only requirement with MongoDB Atlas is allowlisting the [Estuary IP addresses](/reference/allow-ip-addresses/).
 
 Navigate to the “Network Access” page using the left hand sidebar, and using the “Add new IP address” button, create the list entry which enables the communication between the two services.
 
-![Allowlisting Estuary Flow's IP](/images/getting-started/tutorials/real_time_cdc_with_mongodb/estuary-marketing-strapi-uploads/uploads/image13_3294633b1f/image13_3294633b1f.png)
+![Allowlisting Estuary's IP](/images/getting-started/tutorials/real_time_cdc_with_mongodb/estuary-marketing-strapi-uploads/uploads/image13_3294633b1f/image13_3294633b1f.png)
 
 Next, find your connection string by navigating to the `mongosh` setup page by clicking the “Connect” button on the database overview section, then choosing the “Shell” option.
 
 <Note>
-  You’re not going to set up `mongosh` for this tutorial, but this is the easiest way to get ahold of the connection string we’ll be using.
+  You’re not going to set up `mongosh` for this tutorial, but this is the
+  easiest way to get ahold of the connection string we’ll be using.
 </Note>
 
 ![Grab your MongoDB connection string](/images/getting-started/tutorials/real_time_cdc_with_mongodb/estuary-marketing-strapi-uploads/uploads/image9_81fdbf1a20/image9_81fdbf1a20.png)
 
-Copy the connection string and head over to your [Estuary Flow dashboard](https://dashboard.estuary.dev/) to continue the tutorial.
+Copy the connection string and head over to your [Estuary dashboard](https://dashboard.estuary.dev/) to continue the tutorial.
 
-## Setting up Estuary Flow[]()[​](#setting-up-estuary-flow "Direct link to setting-up-estuary-flow")
+## Setting up Estuary[]()[​](#setting-up-estuary-flow "Direct link to setting-up-estuary-flow")
 
 On the dashboard, create a new capture by navigating to the “Sources” menu using the sidebar, then pressing the “New Capture” button. In the list of available connectors, search for “MongoDB”, then press “Capture”.
 
@@ -150,7 +157,9 @@ Before we initialize the connector, let’s talk a little bit about how incoming
 The **documents** of your flows are stored in **collections**: real-time data lakes of JSON documents in cloud storage.
 
 <Note>
-  Keep in mind, these are not the same documents and collections as the ones in MongoDB, only the names are similar, but we are talking about separate systems.
+  Keep in mind, these are not the same documents and collections as the ones in
+  MongoDB, only the names are similar, but we are talking about separate
+  systems.
 </Note>
 
 Collections being stored in an object storage mean that once you start capturing data, you won’t have to worry about it not being available to replay – object stores such as S3 can be configured to cheaply store data forever. See [docs page](https://docs.estuary.dev/concepts/collections/#documents) for more information about documents.
@@ -173,7 +182,7 @@ MongoDB documents have a mandatory `_id` field that is used as the key of the co
 
 In addition to selecting the collections for capture, this interface provides access to three settings that govern schema evolution. In a NoSQL database environment like MongoDB, schema alterations are frequent occurrences. Manually synchronizing source and destination schemas can end up being a lot of maintenance. To help with this, Estuary introduces a more [sophisticated schema evolution strategy](https://docs.estuary.dev/concepts/advanced/evolutions/#what-do-schema-evolutions-do).
 
-With Estuary Flow, teams can opt to suspend the Data Flow using data contracts, automate the update of the target schema with the new MongoDB schema, or create a new table in the destination to maintain separation between old and new schemas. Details can be found in our [schema evolution](https://docs.estuary.dev/concepts/advanced/evolutions/) docs.
+With Estuary, teams can opt to suspend the Data Flow using data contracts, automate the update of the target schema with the new MongoDB schema, or create a new table in the destination to maintain separation between old and new schemas. Details can be found in our [schema evolution](https://docs.estuary.dev/concepts/advanced/evolutions/) docs.
 
 Schema evolutions serve to prevent errors stemming from discrepancies between specifications in a number of ways:
 
@@ -198,7 +207,12 @@ Incremental backfills in the MongoDB connector follow a straightforward approach
 In the event of a pause in the connector's process, it resumes capturing change events from the point of interruption. However, the connector's ability to accomplish this depends on the size of the replica set oplog. In certain scenarios where the pause duration is significant enough for the oplog to purge old change events, the connector may necessitate redoing the backfill to maintain data consistency.
 
 <Check>
-  To ensure reliable data capture, it is recommended to [adjust the oplog size](https://www.mongodb.com/docs/manual/tutorial/change-oplog-size/#c.-change-the-oplog-size-of-the-replica-set-member) or set a [minimum retention period](https://www.mongodb.com/docs/manual/reference/command/replSetResizeOplog/#minimum-oplog-retention-period). A recommended minimum retention period of at least 24 hours is sufficient for most cases.
+  To ensure reliable data capture, it is recommended to [adjust the oplog
+  size](https://www.mongodb.com/docs/manual/tutorial/change-oplog-size/#c.-change-the-oplog-size-of-the-replica-set-member)
+  or set a [minimum retention
+  period](https://www.mongodb.com/docs/manual/reference/command/replSetResizeOplog/#minimum-oplog-retention-period).
+  A recommended minimum retention period of at least 24 hours is sufficient for
+  most cases.
 </Check>
 
 ## Real-time CDC[]()[​](#real-time-cdc "Direct link to real-time-cdc")
@@ -239,17 +253,17 @@ After you insert the document, check out the collection preview on the Flow UI t
 
 ## Wrapping up[]()[​](#wrapping-up "Direct link to wrapping-up")
 
-In this tutorial, you set up a MongoDB Change Data Capture (CDC) integration using Estuary Flow. Throughout the process, you learned about the technical nuances of capturing and synchronizing data changes from MongoDB collections in real-time.
+In this tutorial, you set up a MongoDB Change Data Capture (CDC) integration using Estuary. Throughout the process, you learned about the technical nuances of capturing and synchronizing data changes from MongoDB collections in real-time.
 
 Key takeaways from this tutorial:
 
-* MongoDB's document-based approach and schema flexibility present unique challenges and opportunities for Change Data Capture workflows.
+- MongoDB's document-based approach and schema flexibility present unique challenges and opportunities for Change Data Capture workflows.
 
-* You explored the prerequisites and configuration settings required to establish a seamless connection between MongoDB and Estuary, ensuring efficient data capture and synchronization.
+- You explored the prerequisites and configuration settings required to establish a seamless connection between MongoDB and Estuary, ensuring efficient data capture and synchronization.
 
-* Estuary's schema evolution capabilities enable data teams to manage schema changes effectively, ensuring data consistency and integrity across source and destination systems.
+- Estuary's schema evolution capabilities enable data teams to manage schema changes effectively, ensuring data consistency and integrity across source and destination systems.
 
-* You learned how Flow continuously monitors MongoDB change streams and executes backfilling processes to capture changes accurately, even in the event of interruptions or schema alterations.
+- You learned how Flow continuously monitors MongoDB change streams and executes backfilling processes to capture changes accurately, even in the event of interruptions or schema alterations.
 
 ## Next Steps[]()[​](#next-steps "Direct link to next-steps")
 

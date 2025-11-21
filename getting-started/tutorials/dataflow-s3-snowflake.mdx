@@ -1,6 +1,6 @@
 ---
 title: "Create Your First Dataflow with Amazon S3 and Snowflake"
-description: "In this tutorial, you'll create your first complete  with Estuary Flow using publicly available data."
+description: "In this tutorial, you'll create your first complete  with Estuary using publicly available data."
 ---
 
 The dataset you'll use is composed of zipped CSV files in an Amazon S3 cloud storage bucket. You'll transport this data to a table in your own Snowflake data warehouse.
@@ -9,9 +9,9 @@ The dataset you'll use is composed of zipped CSV files in an Amazon S3 cloud sto
 
 You'll need:
 
-* An Estuary Flow account. If you don't have one, visit the [Flow web app](https://dashboard.estuary.dev) to register for free.
+- An Estuary account. If you don't have one, visit the [Flow web app](https://dashboard.estuary.dev) to register for free.
 
-* A [Snowflake free trial account](https://signup.snowflake.com/) (or a full account). Snowflake trials are valid for 30 days.
+- A [Snowflake free trial account](https://signup.snowflake.com/) (or a full account). Snowflake trials are valid for 30 days.
 
 ## Introduction[​](#introduction "Direct link to Introduction")
 
@@ -21,19 +21,19 @@ New York City hosts the United States' largest bike share program, Citi Bike. [C
 
 In this scenario, let's imagine you're interested in urban bike safety, or perhaps you plan to open a bike store and entice Citi Bike renters to buy their own bikes. You'd like to access the Citi Bike data in your Snowflake data warehouse. From there, you plan to use your data analytics platform of choice to explore the data, and perhaps integrate it with business intelligence apps.
 
-You can use Estuary Flow to build a real-time Data Flow that will capture all the new data from Citi Bike as soon as it appears, convert it to Snowflake's format, and land the data in your warehouse.
+You can use Estuary to build a real-time Data Flow that will capture all the new data from Citi Bike as soon as it appears, convert it to Snowflake's format, and land the data in your warehouse.
 
-#### Estuary Flow[​](#estuary-flow "Direct link to Estuary Flow")
+#### Estuary[​](#estuary-flow "Direct link to Estuary")
 
-In Estuary Flow, you create Data Flows to connect data **source** and **destination** systems.
+In Estuary, you create Data Flows to connect data **source** and **destination** systems.
 
 The simplest Data Flow comprises three types of entities:
 
-* A data **capture**, which ingests data from the source. In this case, you'll capture from Amazon S3.
+- A data **capture**, which ingests data from the source. In this case, you'll capture from Amazon S3.
 
-* One or more **collections**, which Flow uses to store that data inside a cloud-backed data lake
+- One or more **collections**, which Flow uses to store that data inside a cloud-backed data lake
 
-* A **materialization**, to push the data to an external destination. In this case, you'll materialize to a Snowflake data warehouse.
+- A **materialization**, to push the data to an external destination. In this case, you'll materialize to a Snowflake data warehouse.
 
 graph LR; Capture-->Collection; Collection-->Materialization;
 
@@ -65,15 +65,15 @@ You'll start by creating your capture.
 
 6. Next, fill out the required properties for S3.
 
-   * **AWS Access Key ID** and **AWS Secret Access Key**: The bucket is public, so you can leave these fields blank.
+   - **AWS Access Key ID** and **AWS Secret Access Key**: The bucket is public, so you can leave these fields blank.
 
-   * **AWS Region**: `us-east-1`
+   - **AWS Region**: `us-east-1`
 
-   * **Bucket**: `tripdata`
+   - **Bucket**: `tripdata`
 
-   * **Prefix**: The storage bucket isn't organized by prefixes, so leave this blank.
+   - **Prefix**: The storage bucket isn't organized by prefixes, so leave this blank.
 
-   * **Match Keys**: `2022`
+   - **Match Keys**: `2022`
 
    The Citi Bike storage bucket has been around for a while. Some of the older datasets have incorrect file extensions or contain data in different formats. By selecting a subset of files from the year 2022, you'll make things easier to manage for the purposes of this tutorial. (In a real-world use case, you'd likely reconcile the different schemas of the various data formats using a **derivation**. [Derivations](/concepts/#derivations) are a more advanced Flow skill.)
 
@@ -129,23 +129,23 @@ You were directed to the **Materializations** page. All of the available materia
 
 4. Next, fill out the required properties for Snowflake (most of these come from the script you just ran).
 
-   * **Host URL**: This is the URL you use to log into Snowflake. If you recently signed up for a trial, it should be in your email. Omit the protocol from the beginning. For example, `ACCOUNTID.region.cloudprovider.snowflakecomputing.com` or `orgname-accountname.snowflakecomputing.com`.
+   - **Host URL**: This is the URL you use to log into Snowflake. If you recently signed up for a trial, it should be in your email. Omit the protocol from the beginning. For example, `ACCOUNTID.region.cloudprovider.snowflakecomputing.com` or `orgname-accountname.snowflakecomputing.com`.
 
      [Learn more about account identifiers and host URLs.](https://docs.snowflake.com/en/user-guide/admin-account-identifier.html#where-are-account-identifiers-used)
 
-   * **Account**: Your account identifier. This is part of the Host URL. Using the previous examples, it would be `ACCOUNTID` or `accountname`.
+   - **Account**: Your account identifier. This is part of the Host URL. Using the previous examples, it would be `ACCOUNTID` or `accountname`.
 
-   * **User**: `ESTUARY_USER`
+   - **User**: `ESTUARY_USER`
 
-   * **Password**: `secret` (Substitute the password you set in the script.)
+   - **Password**: `secret` (Substitute the password you set in the script.)
 
-   * **Database**: `ESTUARY_DB`
+   - **Database**: `ESTUARY_DB`
 
-   * **Schema**: `ESTUARY_SCHEMA`
+   - **Schema**: `ESTUARY_SCHEMA`
 
-   * **Warehouse**: `ESTUARY_WH`
+   - **Warehouse**: `ESTUARY_WH`
 
-   * **Role**: `ESTUARY_ROLE`
+   - **Role**: `ESTUARY_ROLE`
 
 5. Scroll down to view the **Source Collections** section and change the default name in the **Table** field to `CitiBikeData` or another name of your choosing.
 
@@ -169,7 +169,7 @@ You were directed to the **Materializations** page. All of the available materia
 
    Flow publishes the materialization.
 
-10. Return to the Snowflake console and expand ESTUARY\_DB and ESTUARY\_SCHEMA. You'll find the materialized table there.
+10. Return to the Snowflake console and expand ESTUARY_DB and ESTUARY_SCHEMA. You'll find the materialized table there.
 
 ## Conclusion[​](#conclusion "Direct link to Conclusion")
 
@@ -181,8 +181,8 @@ Data warehouses like Snowflake are designed to power data analytics. From here, 
 
 #### Want to learn more?[​](#want-to-learn-more "Direct link to Want to learn more?")
 
-* For more information on the connectors you used today, see the pages on [S3](/reference/Connectors/capture-connectors/amazon-s3/) and [Snowflake](/reference/Connectors/materialization-connectors/Snowflake/).
+- For more information on the connectors you used today, see the pages on [S3](/reference/Connectors/capture-connectors/amazon-s3/) and [Snowflake](/reference/Connectors/materialization-connectors/Snowflake/).
 
-* You can create a Data Flow using any combination of supported connectors with a similar process to the one you followed in this tutorial. For a more generalized procedure, see the [guide to create a Data Flow](/guides/create-dataflow/).
+- You can create a Data Flow using any combination of supported connectors with a similar process to the one you followed in this tutorial. For a more generalized procedure, see the [guide to create a Data Flow](/guides/create-dataflow/).
 
 [Edit this page](https://github.com/estuary/flow/edit/master/site/docs/getting-started/tutorials/dataflow-s3-snowflake.md)

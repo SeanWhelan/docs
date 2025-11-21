@@ -7,11 +7,11 @@ In this tutorial, you'll use Flow and your Postgres instance to create something
 
 ## Prerequisites[​](#prerequisites "Direct link to Prerequisites")
 
-* An Estuary Flow account. If you don't have one, visit the [Flow web app](https://dashboard.estuary.dev) to register for free.
+- An Estuary account. If you don't have one, visit the [Flow web app](https://dashboard.estuary.dev) to register for free.
 
-* `flowctl` [installed and authenticated](/guides/get-started-with-flowctl/)
+- `flowctl` [installed and authenticated](/guides/get-started-with-flowctl/)
 
-* A Postgres database set up to [allow connections from Flow](/reference/Connectors/materialization-connectors/PostgreSQL/#setup). Amazon RDS, Amazon Aurora, Google Cloud SQL, Azure Database for PostgreSQL, and self-hosted databases are supported.
+- A Postgres database set up to [allow connections from Flow](/reference/Connectors/materialization-connectors/PostgreSQL/#setup). Amazon RDS, Amazon Aurora, Google Cloud SQL, Azure Database for PostgreSQL, and self-hosted databases are supported.
 
 ## Introduction[​](#introduction "Direct link to Introduction")
 
@@ -44,10 +44,12 @@ You'll then materialize both the raw and transformed datasets to your Postgres i
    The collection schema has many fields. Because Wikipedia sees a lot of edits, this would yield a large, unwieldy table in Postgres.
 
    <Info>
-     To save on performance, you can also perform this tutorial using the smaller `demo/wikipedia/recentchange-sampled` collection. Apart from the collection name, all other steps are the same.
+     To save on performance, you can also perform this tutorial using the
+     smaller `demo/wikipedia/recentchange-sampled` collection. Apart from the
+     collection name, all other steps are the same.
    </Info>
 
-   *Learn more about [Flow collections](/concepts/collections/) and [schemas](/concepts/schemas/).*
+   _Learn more about [Flow collections](/concepts/collections/) and [schemas](/concepts/schemas/)._
 
    Now you'll create the derivation. A derivation is a new collection that's defined by a transformation. First, you'll define the collection's schema. Then, you'll write the transformation to shape the data to that schema.
 
@@ -79,7 +81,7 @@ You'll write your derivation with the help of `flowctl`, Estuary's CLI.
 
    The new schema contains [reduction annotations](/concepts/schemas/#reduce-annotations). These sum the changes made by a given user on a given date. The collection is now keyed on each unique combination of user ID and date. It has just three fields: the user, date, and the number of changes made by that user on that date.
 
-   We also specify that we're *deriving* the new collection using a SQL transformation. You may notice that we reference files that don't exist yet. We'll fix this next.
+   We also specify that we're _deriving_ the new collection using a SQL transformation. You may notice that we reference files that don't exist yet. We'll fix this next.
 
    In the `transforms` stanza, we specify that we want to [shuffle](/concepts/derivations/#shuffles) on the `user` key. Since we're working with a large dataset, this ensures that each user is processed by the same task **shard**. This way, you'll prevent Flow from creating multiple counts for a given user and date combination.
 

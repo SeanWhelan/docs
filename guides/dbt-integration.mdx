@@ -1,46 +1,46 @@
 ---
 title: "dbt Cloud Integration"
-description: "Estuary Flow offers an integration with dbt Cloud, enabling users to trigger dbt jobs automatically when new data is available in a materialized view. This integration provides orchestration between the data ingestion and transformation layers, making real-time data workflows more efficient and automating data transformations."
+description: "Estuary offers an integration with dbt Cloud, enabling users to trigger dbt jobs automatically when new data is available in a materialized view. This integration provides orchestration between the data ingestion and transformation layers, making real-time data workflows more efficient and automating data transformations."
 ---
 
-With the dbt Cloud Job Trigger feature in Estuary Flow, you can:
+With the dbt Cloud Job Trigger feature in Estuary, you can:
 
-* Automate transformations with dbt jobs as soon as new data is materialized, ensuring data freshness in your analytics.
-* Specify custom job behavior, like replacing or skipping jobs if a trigger is already in progress.
-* Define a custom "cause" message to add context for each triggered job.
+- Automate transformations with dbt jobs as soon as new data is materialized, ensuring data freshness in your analytics.
+- Specify custom job behavior, like replacing or skipping jobs if a trigger is already in progress.
+- Define a custom "cause" message to add context for each triggered job.
 
 The integration can be configured when creating or editing a Materialization.
 
 ## How to Configure dbt Cloud Integration[​](#how-to-configure-dbt-cloud-integration "Direct link to How to Configure dbt Cloud Integration")
 
-Follow these steps to configure the dbt Cloud Job Trigger within an Estuary Flow materialization connector:
+Follow these steps to configure the dbt Cloud Job Trigger within an Estuary materialization connector:
 
 ### Required Parameters[​](#required-parameters "Direct link to Required Parameters")
 
 To configure the dbt Cloud Job Trigger, you’ll need the following information:
 
-* Access URL: The dbt access URL can be found in your dbt Account Settings. Use this URL if your dbt account requires a specific access endpoint. For more information, visit go.estuary.dev/dbt-cloud-trigger. If you have not yet migrated to the new API, your Access URL is: [https://cloud.getdbt.com/](https://cloud.getdbt.com/)
-* Job ID: The unique identifier for the dbt job you wish to trigger.
-* Account ID: Your dbt account identifier.
-* API Key: The dbt API key associated with your account. This allows Estuary Flow to authenticate with dbt Cloud and trigger jobs.
+- Access URL: The dbt access URL can be found in your dbt Account Settings. Use this URL if your dbt account requires a specific access endpoint. For more information, visit go.estuary.dev/dbt-cloud-trigger. If you have not yet migrated to the new API, your Access URL is: [https://cloud.getdbt.com/](https://cloud.getdbt.com/)
+- Job ID: The unique identifier for the dbt job you wish to trigger.
+- Account ID: Your dbt account identifier.
+- API Key: The dbt API key associated with your account. This allows Estuary to authenticate with dbt Cloud and trigger jobs.
 
 ### Optional Parameters[​](#optional-parameters "Direct link to Optional Parameters")
 
-* Cause Message: Set a custom message that will appear as the "cause" for each triggered job. This is useful for tracking the context of each run, especially in complex workflows. If left empty, it defaults to "Estuary Flow."
+- Cause Message: Set a custom message that will appear as the "cause" for each triggered job. This is useful for tracking the context of each run, especially in complex workflows. If left empty, it defaults to "Estuary."
 
-* Job Trigger Mode:
+- Job Trigger Mode:
 
-  * skip: Skips the trigger if a job is already running (default).
-  * replace: Cancels any currently running job and starts a new one.
-  * ignore: Initiates a new job regardless of any existing jobs.
+  - skip: Skips the trigger if a job is already running (default).
+  - replace: Cancels any currently running job and starts a new one.
+  - ignore: Initiates a new job regardless of any existing jobs.
 
-* Run Interval: Defines the interval at which the dbt job should run. This interval only triggers if new data has been materialized. The default is 30m (30 minutes).
+- Run Interval: Defines the interval at which the dbt job should run. This interval only triggers if new data has been materialized. The default is 30m (30 minutes).
 
 ## Use Cases[​](#use-cases "Direct link to Use Cases")
 
 ### Regular Data Transformation on New Data[​](#regular-data-transformation-on-new-data "Direct link to Regular Data Transformation on New Data")
 
-In scenarios where data arrival may be delayed (for example, a materialization connector's `Sync Frequency` is set to `1hr`), the dbt Cloud Job Trigger mechanism in Estuary Flow is designed to ensure transformations are consistent without overwhelming the dbt job queue. Here’s how the process works:
+In scenarios where data arrival may be delayed (for example, a materialization connector's `Sync Frequency` is set to `1hr`), the dbt Cloud Job Trigger mechanism in Estuary is designed to ensure transformations are consistent without overwhelming the dbt job queue. Here’s how the process works:
 
 1. Connector Initialization: When the connector starts, it immediately triggers a dbt job. This initial job ensures that data is consistent, even if the connector has restarted.
 

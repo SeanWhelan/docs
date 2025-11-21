@@ -7,11 +7,11 @@ description: "This guide will walk you through setting up the native Google Anal
 
 To use this connector, ensure you have the following prerequisites:
 
-* A Google Cloud Project with BigQuery enabled.
-* Administrative access to your Google Analytics 4 property.
-* Editor or Administrator roles on the Google Cloud Project where BigQuery is located.
-* A Google Cloud Service Account with the "BigQuery User" and "BigQuery Data Viewer" roles in your GCP project
-* A Service Account Key to authenticate into your Service Account
+- A Google Cloud Project with BigQuery enabled.
+- Administrative access to your Google Analytics 4 property.
+- Editor or Administrator roles on the Google Cloud Project where BigQuery is located.
+- A Google Cloud Service Account with the "BigQuery User" and "BigQuery Data Viewer" roles in your GCP project
+- A Service Account Key to authenticate into your Service Account
 
 ## Setup[​](#setup "Direct link to Setup")
 
@@ -23,23 +23,23 @@ Follow the steps below to set up the native GA4 to BigQuery export and the BigQu
 
 2. **Navigate to BigQuery Linking:**
 
-   * In the Admin section, find the property you want to link to BigQuery.
-   * Under the property column, click on **BigQuery Linking**.
+   - In the Admin section, find the property you want to link to BigQuery.
+   - Under the property column, click on **BigQuery Linking**.
 
 3. **Create a Link:**
 
-   * Click on the **Link** button and follow the prompts.
-   * Select the Google Cloud Project where your BigQuery dataset is located. You may need to provide necessary permissions if you haven't done so already.
+   - Click on the **Link** button and follow the prompts.
+   - Select the Google Cloud Project where your BigQuery dataset is located. You may need to provide necessary permissions if you haven't done so already.
 
 4. **Configure Export Options:**
 
-   * Choose between **Daily Export** and **Streaming Export** options.
-   * Daily Export exports all events from the previous day, while Streaming Export provides near real-time data but incurs additional BigQuery costs.
+   - Choose between **Daily Export** and **Streaming Export** options.
+   - Daily Export exports all events from the previous day, while Streaming Export provides near real-time data but incurs additional BigQuery costs.
 
 5. **Review and Submit:**
 
-   * Review the settings, including your dataset name and export frequency.
-   * Click **Submit** to complete the linking process.
+   - Review the settings, including your dataset name and export frequency.
+   - Click **Submit** to complete the linking process.
 
 For detailed instructions, refer to the official Google documentation on [Setting up BigQuery Export for GA4](https://support.google.com/analytics/answer/9358801).
 
@@ -47,7 +47,7 @@ For detailed instructions, refer to the official Google documentation on [Settin
 
 For each day, streaming export creates one new table:
 
-`events_intraday_YYYYMMDD`: An internal staging table that includes records of session activity that took place during the day. Streaming export is a best-effort operation and may not include all data for reasons such as the processing of late events and/or failed uploads. Data is exported continuously throughout the day. This table can include records of a session when that session spans multiple export operations.This table is deleted when events\_YYYYMMDD is complete. If you select the daily option when you set up BigQuery Export, then the following table is also created each day.
+`events_intraday_YYYYMMDD`: An internal staging table that includes records of session activity that took place during the day. Streaming export is a best-effort operation and may not include all data for reasons such as the processing of late events and/or failed uploads. Data is exported continuously throughout the day. This table can include records of a session when that session spans multiple export operations.This table is deleted when events_YYYYMMDD is complete. If you select the daily option when you set up BigQuery Export, then the following table is also created each day.
 
 `events_YYYYMMDD`: The full daily export of events.
 
@@ -69,9 +69,9 @@ Service Account Keys are used to authenticate as Google Service Accounts. To be 
 
 To create a new key for a service account, follow Google Cloud Platform's instructions for [Creating a Service Account Key](https://cloud.google.com/iam/docs/keys-create-delete#creating). Be sure to create the key in JSON format. Once the linked instructions have been followed you should have a key file, which will need to be uploaded to Flow when setting up your capture.
 
-#### Set up the BigQuery connector in Estuary Flow[​](#set-up-the-bigquery-connector-in-estuary-flow "Direct link to Set up the BigQuery connector in Estuary Flow")
+#### Set up the BigQuery connector in Estuary[​](#set-up-the-bigquery-connector-in-estuary-flow "Direct link to Set up the BigQuery connector in Estuary")
 
-1. Log into your Estuary Flow account.
+1. Log into your Estuary account.
 2. In the left navigation bar, click on "Sources". In the top-left corner, click "New Capture".
 3. Locate and select the "BigQuery" connector.
 4. Enter a name and optional description for the capture task.
@@ -87,9 +87,9 @@ This connector operates by periodically executing a `SELECT * FROM table` query 
 
 The cursor must be a column (or ordered tuple of columns) which is expected to strictly increase for newly added or updated rows. Common examples of suitable cursors include:
 
-* Update timestamps, which are often the best choice if available since they can often be used to identify changed rows as well as new insertions.
-* Creation timestamps, which can be used to identify newly added rows in append-only datasets but won't help to identify changes to preexisting rows.
-* Monotonically increasing IDs, which are another way of identifying newly added rows but often don't help with update detection.
+- Update timestamps, which are often the best choice if available since they can often be used to identify changed rows as well as new insertions.
+- Creation timestamps, which can be used to identify newly added rows in append-only datasets but won't help to identify changes to preexisting rows.
+- Monotonically increasing IDs, which are another way of identifying newly added rows but often don't help with update detection.
 
 When a cursor is specified, the update query will take the form `SELECT * FROM $table WHERE $cursorName > $lastCursorValue ORDER BY $cursorName` and the capture connector will keep track of the highest observed cursor value between polling intervals. If multiple cursor columns are specified, they will be treated as an ordered tuple of columns which collectively form the cursor, and the obvious lexicographic tuple ordering will apply.
 

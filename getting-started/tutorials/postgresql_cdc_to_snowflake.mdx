@@ -4,7 +4,7 @@ title: "PostgreSQL CDC Streaming to Snowflake"
 
 ## Introduction[]()[​](#introduction "Direct link to introduction")
 
-In this tutorial, we'll set up a streaming CDC pipeline from PostgreSQL to Snowflake using Estuary Flow. By the end, you’ll have learned everything you need to know about building a pipeline on your own.
+In this tutorial, we'll set up a streaming CDC pipeline from PostgreSQL to Snowflake using Estuary. By the end, you’ll have learned everything you need to know about building a pipeline on your own.
 
 You'll use Flow's PostgreSQL capture connector and Snowflake materialization connector to set up an end-to-end CDC pipeline in three steps:
 
@@ -18,7 +18,7 @@ By the end of this tutorial, you'll have established a robust and efficient data
 
 Before you get started, make sure you do two things.
 
-1. Sign up for Estuary Flow [here](https://dashboard.estuary.dev/register). It’s simple, fast and free.
+1. Sign up for Estuary [here](https://dashboard.estuary.dev/register). It’s simple, fast and free.
 
 2. Make sure you also join the [Estuary Slack Community](https://estuary-dev.slack.com/ssb/redirect#/shared-invite/email). Don’t struggle. Just ask a question.
 
@@ -34,11 +34,11 @@ If you are interested in the intricacies of change data capture, head over to [t
 
 This tutorial will assume you have access to the following things:
 
-* Docker: for convenience, we are providing a docker compose definition which will allow you to spin up a database and a fake data generator service in about 5 seconds!
+- Docker: for convenience, we are providing a docker compose definition which will allow you to spin up a database and a fake data generator service in about 5 seconds!
 
-* ngrok: Flow is a fully managed service. Because the database used in this tutorial will be running on your machine, you’ll need something to expose it to the internet. [ngrok](https://ngrok.com/) is a lightweight tool that does just that.
+- ngrok: Flow is a fully managed service. Because the database used in this tutorial will be running on your machine, you’ll need something to expose it to the internet. [ngrok](https://ngrok.com/) is a lightweight tool that does just that.
 
-* Snowflake account: The target data warehouse for our flow is Snowflake. In order to follow along with the tutorial, a trial account is perfectly fine.
+- Snowflake account: The target data warehouse for our flow is Snowflake. In order to follow along with the tutorial, a trial account is perfectly fine.
 
 ## Step 1. Set up source database[]()[​](#step-1-set-up-source-database "Direct link to step-1-set-up-source-database")
 
@@ -49,7 +49,8 @@ As this tutorial is focused on CDC replication from PostgreSQL, we’ll need a d
 Save the below `yaml` snippet as a file called `docker-compose.yml`. This `docker-compose.yml` file contains the service definitions for the PostgreSQL database and the mock data generator service.
 
 <Check>
-  Since V2, compose is integrated into your base Docker package, there’s no need to download any separate tooling!
+  Since V2, compose is integrated into your base Docker package, there’s no need
+  to download any separate tooling!
 </Check>
 
 docker-compose.yml
@@ -63,7 +64,9 @@ Don’t be alarmed by all these Docker configurations, they are made to be repro
 Next up, create a folder called `schemas` and paste the below SQL DDL into a file called `products.sql`. This file contains the schema of the demo data.
 
 <Note>
-  This file defines the schema via a create table statement, but the actual table creation happens in the `init.sql` file, this is just a quirk of the [Datagen](https://github.com/MaterializeInc/datagen) data generator tool.
+  This file defines the schema via a create table statement, but the actual
+  table creation happens in the `init.sql` file, this is just a quirk of the
+  [Datagen](https://github.com/MaterializeInc/datagen) data generator tool.
 </Note>
 
 products.sql
@@ -101,7 +104,10 @@ GRANT pg_read_all_data TO flow_capture;
 Granting the `pg_read_all_data` privilege to the `flow_capture` user ensures that it can access and read data from all tables in the database, essential for capturing changes.
 
 <Note>
-  `pg_read_all_data` is used for convenience, but is not a hard requirement, since it is possible to grant a more granular set of permissions. For more details check out the [connector docs](https://docs.estuary.dev/reference/Connectors/capture-connectors/PostgreSQL/#self-hosted-postgresql).
+  `pg_read_all_data` is used for convenience, but is not a hard requirement,
+  since it is possible to grant a more granular set of permissions. For more
+  details check out the [connector
+  docs](https://docs.estuary.dev/reference/Connectors/capture-connectors/PostgreSQL/#self-hosted-postgresql).
 </Note>
 
 ```
@@ -131,7 +137,8 @@ A publication defines a set of tables whose changes will be replicated. In this 
 These commands configure the `flow_publication` publication to publish changes via partition root and add the specified tables to the publication. By setting `publish_via_partition_root` to true, the publication ensures that updates to partitioned tables are correctly captured and replicated.
 
 <Note>
-  The table in this tutorial is not partitioned, but we recommend always setting `publish_via_partition_root` when creating a publication.
+  The table in this tutorial is not partitioned, but we recommend always setting
+  `publish_via_partition_root` when creating a publication.
 </Note>
 
 These objects form the backbone of a robust CDC replication setup, ensuring data consistency and integrity across systems. After the initial setup, you will not have to touch these objects in the future, unless you wish to start ingesting change events from a new table.
@@ -163,7 +170,8 @@ ngrok tcp 5432
 You should immediately be greeted with a screen that contains the public URL for the tunnel we just started! In the example above, the public URL `5.tcp.eu.ngrok.io:14407` is mapped to `localhost:5432`, which is the address of the Postgres database.
 
 <Note>
-  Don’t close this window while working on the tutorial as this is required to keep the connections between Flow and the database alive.
+  Don’t close this window while working on the tutorial as this is required to
+  keep the connections between Flow and the database alive.
 </Note>
 
 Before we jump into setting up the replication, you can quickly verify the data being properly generated by connecting to the database and peeking into the products table, as shown below:
@@ -202,15 +210,15 @@ To see how Flow parsed the incoming records, click on the Collection tab and ver
 
 Before you advance to the next step, let’s take a look at the other configuration options we have here. You’ll see three toggles, all turned on by default:
 
-* **Automatically keep schemas up to date**
+- **Automatically keep schemas up to date**
 
-* **Automatically add new source collections**
+- **Automatically add new source collections**
 
-* **Breaking changes re-version collections**
+- **Breaking changes re-version collections**
 
 All of these settings relate to how Flow handles schema evolution, so let’s take a quick detour to explain them from a high-level perspective.
 
-Estuary Flow's schema evolution feature seamlessly handles updates to dataset structures within a Data Flow, ensuring uninterrupted operation. Collection specifications define each dataset, including key, schema, and partitions. When specs change, schema evolution automatically updates associated components to maintain compatibility.
+Estuary's schema evolution feature seamlessly handles updates to dataset structures within a Data Flow, ensuring uninterrupted operation. Collection specifications define each dataset, including key, schema, and partitions. When specs change, schema evolution automatically updates associated components to maintain compatibility.
 
 It addresses breaking changes by updating materializations or recreating collections with new names, preventing disruptions. Common causes of breaking changes include modifications to collection schemas, which require updates to materializations.
 
@@ -224,7 +232,7 @@ For the sake of this tutorial, feel free to leave everything at its default sett
 
 Similarly to the source side, we’ll need to set up some initial configuration in Snowflake to allow Flow to materialize collections into a table.
 
-Preparing Snowflake for use with Estuary Flow involves the following steps:
+Preparing Snowflake for use with Estuary involves the following steps:
 
 1\. Keep the Flow web app open and open a new tab or window to access your Snowflake console.
 
@@ -238,7 +246,7 @@ set database_name = 'ESTUARY_DB';set warehouse_name = 'ESTUARY_WH';set estuary_r
 
 4\. Execute all the queries by clicking the drop-down arrow next to the Run button and selecting "Run All."
 
-5\. Snowflake will process the queries, setting up the necessary roles, databases, schemas, users, and warehouses for Estuary Flow.
+5\. Snowflake will process the queries, setting up the necessary roles, databases, schemas, users, and warehouses for Estuary.
 
 6\. Once the setup is complete, return to the Flow web application to continue with the integration process.
 
@@ -283,12 +291,14 @@ Looks like the data is arriving as expected, and the schema of the table is prop
 To get a feel for how the data flow works, head over to the collection details page on the Flow web UI to see your changes immediately. On the Snowflake end, they will be materialized after the next update.
 
 <Note>
-  Based on your configuration of the "Update Delay" parameter when setting up the Snowflake Materialization, you might have to wait until the configured amount of time passes for your changes to make it to the destination.
+  Based on your configuration of the "Update Delay" parameter when setting up
+  the Snowflake Materialization, you might have to wait until the configured
+  amount of time passes for your changes to make it to the destination.
 </Note>
 
 ## Party time\![]()[​](#party-time "Direct link to party-time")
 
-Congratulations! 🎉 You've successfully set up a CDC pipeline from PostgreSQL to Snowflake using Estuary Flow. In just a few minutes, you've learned how to configure log-based CDC replication, handle schema evolution, and deploy a robust data integration solution.
+Congratulations! 🎉 You've successfully set up a CDC pipeline from PostgreSQL to Snowflake using Estuary. In just a few minutes, you've learned how to configure log-based CDC replication, handle schema evolution, and deploy a robust data integration solution.
 
 Take a moment to celebrate your achievement! You've not only gained valuable technical knowledge but also demonstrated the agility and efficiency of modern data engineering practices. With your newfound skills, you're well-equipped to tackle complex data challenges and drive innovation in your organization.
 
@@ -304,7 +314,7 @@ Simply stop the Docker containers & terminate the ngrok process. This will termi
 
 To clean up resources in Snowflake use the following SQL script.
 
-snowflake\_cleanup.sql
+snowflake_cleanup.sql
 
 ```
 -- Revoke all privileges from Estuary rolerevoke all privileges on schema ESTUARY_SCHEMA from role ESTUARY_ROLE;revoke all privileges on database ESTUARY_DB from role ESTUARY_ROLE;-- Drop the warehousedrop warehouse if exists ESTUARY_WH;-- Drop the role and userdrop user if exists ESTUARY_USER;drop role if exists ESTUARY_ROLE;-- Drop the schema and databasedrop schema if exists ESTUARY_SCHEMA;drop database if exists ESTUARY_DB;
@@ -316,13 +326,13 @@ In the UI, disable or delete any resources you don’t wish to keep.
 
 ## Next Steps[]()[​](#next-steps "Direct link to next-steps")
 
-That’s it! You should have everything you need to know to create your own data pipeline for loading data into Snowflake! 
+That’s it! You should have everything you need to know to create your own data pipeline for loading data into Snowflake!
 
 Now try it out on your own PostgreSQL database or other sources.
 
 If you want to learn more, make sure you read through the [Estuary documentation](https://docs.estuary.dev/).
 
-You’ll find instructions on how to use other connectors [here](https://docs.estuary.dev/). There are more tutorials [here](https://docs.estuary.dev/guides/). 
+You’ll find instructions on how to use other connectors [here](https://docs.estuary.dev/). There are more tutorials [here](https://docs.estuary.dev/guides/).
 
 Also, don’t forget to join the [Estuary Slack Community](https://estuary-dev.slack.com/ssb/redirect#/shared-invite/email)!
 

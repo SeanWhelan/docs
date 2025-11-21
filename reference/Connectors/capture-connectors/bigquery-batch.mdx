@@ -7,9 +7,9 @@ description: "This connector captures data from BigQuery into Flow collections b
 
 To use this connector, you will need the following prerequisites:
 
-* A Google Cloud Project with BigQuery enabled
-* A Google Cloud Service Account with the "BigQuery User" and "BigQuery Data Viewer" roles in your GCP project
-* A Service Account Key to authenticate into your Service Account
+- A Google Cloud Project with BigQuery enabled
+- A Google Cloud Service Account with the "BigQuery User" and "BigQuery Data Viewer" roles in your GCP project
+- A Service Account Key to authenticate into your Service Account
 
 See the setup guide for more information about how to create the required resources.
 
@@ -33,9 +33,9 @@ Service Account Keys are used to authenticate as Google Service Accounts. To be 
 
 To create a new key for a service account, follow Google Cloud Platform's instructions for [Creating a Service Account Key](https://cloud.google.com/iam/docs/keys-create-delete#creating). Be sure to create the key in JSON format. Once the linked instructions have been followed you should have a key file, which will need to be uploaded to Flow when setting up your capture.
 
-### Set up the BigQuery connector in Estuary Flow[​](#set-up-the-bigquery-connector-in-estuary-flow "Direct link to Set up the BigQuery connector in Estuary Flow")
+### Set up the BigQuery connector in Estuary[​](#set-up-the-bigquery-connector-in-estuary-flow "Direct link to Set up the BigQuery connector in Estuary")
 
-1. Log into your Estuary Flow account.
+1. Log into your Estuary account.
 2. In the left navigation bar, click on "Sources". In the top-left corner, click "New Capture".
 3. Locate and select the "BigQuery" connector.
 4. Enter a name and optional description for the capture task.
@@ -51,9 +51,9 @@ This connector operates by periodically executing a `SELECT * FROM table` query 
 
 The cursor must be a column (or ordered tuple of columns) which is expected to strictly increase for newly added or updated rows. Common examples of suitable cursors include:
 
-* Update timestamps, which are often the best choice if available since they can often be used to identify changed rows as well as new insertions.
-* Creation timestamps, which can be used to identify newly added rows in append-only datasets but won't help to identify changes to preexisting rows.
-* Monotonically increasing IDs, which are another way of identifying newly added rows but often don't help with update detection.
+- Update timestamps, which are often the best choice if available since they can often be used to identify changed rows as well as new insertions.
+- Creation timestamps, which can be used to identify newly added rows in append-only datasets but won't help to identify changes to preexisting rows.
+- Monotonically increasing IDs, which are another way of identifying newly added rows but often don't help with update detection.
 
 When a cursor is specified, the update query will take the form `SELECT * FROM $table WHERE $cursorName > $lastCursorValue ORDER BY $cursorName` and the capture connector will keep track of the highest observed cursor value between polling intervals. If multiple cursor columns are specified, they will be treated as an ordered tuple of columns which collectively form the cursor, and the obvious lexicographic tuple ordering will apply.
 

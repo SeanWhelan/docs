@@ -1,6 +1,6 @@
 ---
 title: "OpenMetrics API"
-description: "Estuary's OpenMetrics API exposes detailed metrics data on your captures, derivations, and materializations. This allows you to track your Estuary Flow usage and pipeline activity in depth. Integrating the API with monitoring platforms like Prometheus or Datadog also allows you to implement alerts with greater specificity than Estuary currently offers natively."
+description: "Estuary's OpenMetrics API exposes detailed metrics data on your captures, derivations, and materializations. This allows you to track your Estuary usage and pipeline activity in depth. Integrating the API with monitoring platforms like Prometheus or Datadog also allows you to implement alerts with greater specificity than Estuary currently offers natively."
 ---
 
 ## Using the OpenMetrics API[​](#using-the-openmetrics-api "Direct link to Using the OpenMetrics API")
@@ -12,16 +12,17 @@ The OpenMetrics API consists of one main endpoint:
 The prefix may be for your entire tenant (such as `acmeCo/`) or a subset (such as `acmeCo/sub/path/`).
 
 <Warning>
-  Don't forget the trailing slash on your tenant or subpath: it's part of your prefix.
+  Don't forget the trailing slash on your tenant or subpath: it's part of your
+  prefix.
 </Warning>
 
 To authenticate the API, you will need an [Estuary refresh token](/guides/how_to_generate_refresh_token/). You can generate one in the [Admin panel](https://dashboard.estuary.dev/admin/api) of your dashboard.
 
 See the sections below for specific instructions on working with the API in relation to:
 
-* [Prometheus](#prometheus)
-* [Datadog](#datadog)
-* [As a custom integration](#custom-integration)
+- [Prometheus](#prometheus)
+- [Datadog](#datadog)
+- [As a custom integration](#custom-integration)
 
 ### Prometheus[​](#prometheus "Direct link to Prometheus")
 
@@ -65,9 +66,9 @@ docker run --rm -it -v $(pwd)/datadog.yaml:/etc/datadog-agent/conf.d/openmetrics
 
 Note that you will need to include environment variables for:
 
-* Your Datadog API key
-* Your Datadog site
-* Your Datadog host name
+- Your Datadog API key
+- Your Datadog site
+- Your Datadog host name
 
 ![Datadog dashboard](/images/reference/openmetrics-api/estuary-marketing-strapi-uploads/uploads/openmetrics_datadog_62a6b99a88/openmetrics_datadog_62a6b99a88.png)
 
@@ -95,8 +96,8 @@ If you implement your own polling, note that the recommended interval for most u
 
 Estuary currently tracks the following metrics in the OpenMetrics API. Metrics fall in one of two categories:
 
-* **Counters:** return the total related to that metric (eg. total number of docs or bytes)
-* **Gauges:** return the latest publication timestamp
+- **Counters:** return the total related to that metric (eg. total number of docs or bytes)
+- **Gauges:** return the latest publication timestamp
 
 | Name                                                 | Type    | Description                                                                                                                                     |
 | ---------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |

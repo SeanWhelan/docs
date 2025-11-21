@@ -9,44 +9,45 @@ This connector is available for use in the Flow web application. For local devel
 
 To use this connector, you'll need a MariaDB database setup with the following.
 
-* The [`binlog_format`](https://mariadb.com/kb/en/binary-log-formats/) system variable must be set to `ROW`.
+- The [`binlog_format`](https://mariadb.com/kb/en/binary-log-formats/) system variable must be set to `ROW`.
 
-* The [binary log retention](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-stored-proc-configuring.html#mysql_rds_set_configuration-usage-notes.binlog-retention-hours) period should be set to 168 hours (the maximum allowed by RDS).
-  * This value may be set lower if necessary, but we [discourage](#insufficient-binlog-retention) doing so as this may increase the likelihood of unrecoverable failures.
+- The [binary log retention](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-stored-proc-configuring.html#mysql_rds_set_configuration-usage-notes.binlog-retention-hours) period should be set to 168 hours (the maximum allowed by RDS).
 
-* A database user with appropriate permissions:
+  - This value may be set lower if necessary, but we [discourage](#insufficient-binlog-retention) doing so as this may increase the likelihood of unrecoverable failures.
 
-  * `REPLICATION CLIENT` and `REPLICATION SLAVE` [privileges](https://mariadb.com/docs/skysql/ref/es10.6/privileges/).
-  * Permission to read the tables being captured.
-  * Permission to read from `information_schema` tables, if automatic discovery is used.
+- A database user with appropriate permissions:
 
-* If the table(s) to be captured include columns of type `DATETIME`, the `time_zone` system variable must be set to an IANA zone name or numerical offset or the capture configured with a `timezone` to use by default.
+  - `REPLICATION CLIENT` and `REPLICATION SLAVE` [privileges](https://mariadb.com/docs/skysql/ref/es10.6/privileges/).
+  - Permission to read the tables being captured.
+  - Permission to read from `information_schema` tables, if automatic discovery is used.
+
+- If the table(s) to be captured include columns of type `DATETIME`, the `time_zone` system variable must be set to an IANA zone name or numerical offset or the capture configured with a `timezone` to use by default.
 
 ### Setup[​](#setup "Direct link to Setup")
 
-1. Allow connections to the database from the Estuary Flow IP address.
+1. Allow connections to the database from the Estuary IP address.
 
    1. [Modify the database](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html), setting **Public accessibility** to **Yes**.
 
-   2. Edit the VPC security group associated with your database, or create a new VPC security group and associate it with the database. Refer to the [steps in the Amazon documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.RDSSecurityGroups.html#Overview.RDSSecurityGroups.Create). Create a new inbound rule and a new outbound rule that allow all traffic from the [Estuary Flow IP addresses](/reference/allow-ip-addresses/).
+   2. Edit the VPC security group associated with your database, or create a new VPC security group and associate it with the database. Refer to the [steps in the Amazon documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.RDSSecurityGroups.html#Overview.RDSSecurityGroups.Create). Create a new inbound rule and a new outbound rule that allow all traffic from the [Estuary IP addresses](/reference/allow-ip-addresses/).
 
    <Info>
-     Alternatively, you can allow secure connections via SSH tunneling. To do so:
+  Alternatively, you can allow secure connections via SSH tunneling. To do so:
 
-     * Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
-     * When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
-   </Info>
+   - Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
+   - When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
+     </Info>
 
 2. Create a RDS parameter group to enable replication in MariaDB.
 
    1. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.Creating.html). Create a unique name and description and set the following properties:
 
-      * **Family**: mariadb10.6
-      * **Type**: DB Parameter group
+      - **Family**: mariadb10.6
+      - **Type**: DB Parameter group
 
    2. [Modify the new parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.Modifying.html) and update the following parameters:
 
-      * binlog\_format: ROW
+      - binlog_format: ROW
 
    3. [Associate the parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.Associating.html) with the database and set [Backup Retention Period](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.Enabling.html) to 7 days. Reboot the database to allow the changes to take effect.
 
@@ -72,15 +73,15 @@ This connector supports capturing from a read replica of your database, provided
 
 2. [Modify the replica](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html) and set the following:
 
-   * **DB parameter group**: the parameter group you created previously
-   * **Backup retention period**: 7 days
-   * **Public access**: Publicly accessible
+   - **DB parameter group**: the parameter group you created previously
+   - **Backup retention period**: 7 days
+   - **Public access**: Publicly accessible
 
 3. Reboot the replica to allow the changes to take effect.
 
 ## Backfills and performance considerations[​](#backfills-and-performance-considerations "Direct link to Backfills and performance considerations")
 
-When the MariaDB capture is initiated, by default, the connector first *backfills*, or captures the targeted tables in their current state. It then transitions to capturing change events on an ongoing basis.
+When the MariaDB capture is initiated, by default, the connector first _backfills_, or captures the targeted tables in their current state. It then transitions to capturing change events on an ongoing basis.
 
 This is desirable in most cases, as it ensures that a complete view of your tables is captured into Flow. However, you may find it appropriate to skip the backfill, especially for extremely large tables.
 
@@ -118,7 +119,8 @@ You configure connectors either in the Flow web app, or by directly editing the 
 <Info>
   When you configure this connector in the web application, the automatic **discovery** process sets up a binding for *most* tables it finds in your database, but there are exceptions.
 
-  Tables in the MariaDB system databases `information_schema`, `mysql`, and `performance_schema` will not be discovered. You can add bindings for such tables manually.
+Tables in the MariaDB system databases `information_schema`, `mysql`, and `performance_schema` will not be discovered. You can add bindings for such tables manually.
+
 </Info>
 
 ### Sample[​](#sample "Direct link to Sample")

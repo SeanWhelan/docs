@@ -9,31 +9,32 @@ It is available for use in the Flow web application. For local development or op
 
 To use this connector, you'll need a MySQL database setup with the following.
 
-* The [`binlog_format`](https://dev.mysql.com/doc/refman/8.4/en/replication-options-binary-log.html#sysvar_binlog_format) system variable must be set to `ROW` (the default value).
+- The [`binlog_format`](https://dev.mysql.com/doc/refman/8.4/en/replication-options-binary-log.html#sysvar_binlog_format) system variable must be set to `ROW` (the default value).
 
-* The [binary log expiration period](https://dev.mysql.com/doc/refman/8.4/en/replication-options-binary-log.html#sysvar_binlog_expire_logs_seconds) should be at least 7 days.
-  * This value may be set lower if necessary, but we [discourage](#insufficient-binlog-retention) doing so as this may increase the likelihood of unrecoverable failures.
+- The [binary log expiration period](https://dev.mysql.com/doc/refman/8.4/en/replication-options-binary-log.html#sysvar_binlog_expire_logs_seconds) should be at least 7 days.
 
-* A database user with appropriate permissions:
+  - This value may be set lower if necessary, but we [discourage](#insufficient-binlog-retention) doing so as this may increase the likelihood of unrecoverable failures.
 
-  * `REPLICATION CLIENT` and `REPLICATION SLAVE` privileges.
-  * Permission to read the tables being captured.
-  * Permission to read from `information_schema` tables, if automatic discovery is used.
+- A database user with appropriate permissions:
 
-* If the table(s) to be captured include columns of type `DATETIME`, the `time_zone` system variable must be set to an IANA zone name or numerical offset or the capture configured with a `timezone` to use by default.
+  - `REPLICATION CLIENT` and `REPLICATION SLAVE` privileges.
+  - Permission to read the tables being captured.
+  - Permission to read from `information_schema` tables, if automatic discovery is used.
+
+- If the table(s) to be captured include columns of type `DATETIME`, the `time_zone` system variable must be set to an IANA zone name or numerical offset or the capture configured with a `timezone` to use by default.
 
 ## Setup[​](#setup "Direct link to Setup")
 
-1. Allow connections between the database and Estuary Flow. There are two ways to do this: by granting direct access to Flow's IP or by creating an SSH tunnel.
+1. Allow connections between the database and Estuary. There are two ways to do this: by granting direct access to Flow's IP or by creating an SSH tunnel.
 
    1. To allow direct access:
 
-      * [Enable public IP on your database](https://cloud.google.com/sql/docs/mysql/configure-ip#add) and add [Estuary Flow IP addresses](/reference/allow-ip-addresses/) as authorized IP addresses.
+      - [Enable public IP on your database](https://cloud.google.com/sql/docs/mysql/configure-ip#add) and add [Estuary IP addresses](/reference/allow-ip-addresses/) as authorized IP addresses.
 
    2. To allow secure connections via SSH tunneling:
 
-      * Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
-      * When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
+      - Follow the guide to [configure an SSH server for tunneling](/guides/connect-network/)
+      - When you configure your connector as described in the [configuration](#configuration) section above, including the additional `networkTunnel` configuration to enable the SSH tunnel. See [Connecting to endpoints on secure networks](/concepts/connectors/#connecting-to-endpoints-on-secure-networks) for additional details and a sample.
 
 2. Set the instance's `binlog_expire_logs_seconds` [flag](https://cloud.google.com/sql/docs/mysql/flags?_ga=2.8077298.-1359189752.1655241239&_gac=1.226418280.1655849730.Cj0KCQjw2MWVBhCQARIsAIjbwoOczKklaVaykkUiCMZ4n3_jVtsInpmlugWN92zx6rL5i7zTxm3AALIaAv6nEALw_wcB) to `2592000` (30 days).
 
@@ -59,26 +60,30 @@ If you intend to capture tables including columns of the type `DATETIME`, and `t
 
 You can:
 
-* Specify a numerical offset from UTC.
+- Specify a numerical offset from UTC.
 
-  * For MySQL version 8.0.19 or higher, values from `-13:59` to `+14:00`, inclusive, are permitted.
-  * Prior to MySQL 8.0.19, values from `-12:59` to `+13:00`, inclusive, are permitted
+  - For MySQL version 8.0.19 or higher, values from `-13:59` to `+14:00`, inclusive, are permitted.
+  - Prior to MySQL 8.0.19, values from `-12:59` to `+13:00`, inclusive, are permitted
 
-* Specify a named timezone in [IANA timezone format](https://www.iana.org/time-zones).
+- Specify a named timezone in [IANA timezone format](https://www.iana.org/time-zones).
 
-* If you're using Amazon Aurora, create or modify the [DB cluster parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html) associated with your MySQL database. [Set](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html#USER_WorkingWithParamGroups.ModifyingCluster) the `time_zone` parameter to the correct value.
+- If you're using Amazon Aurora, create or modify the [DB cluster parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html) associated with your MySQL database. [Set](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithDBClusterParamGroups.html#USER_WorkingWithParamGroups.ModifyingCluster) the `time_zone` parameter to the correct value.
 
 For example, if you're located in New Jersey, USA, you could set `time_zone` to `-05:00` or `-04:00`, depending on the time of year. Because this region observes daylight savings time, you'd be responsible for changing the offset. Alternatively, you could set `time_zone` to `America/New_York`, and time changes would occur automatically.
 
 If using IANA time zones, your database must include time zone tables. [Learn more in the MySQL docs](https://dev.mysql.com/doc/refman/8.0/en/time-zone-support.html).
 
 <Check>
-  If you are unable to set the `time_zone` in the database and need to capture tables with `DATETIME` columns, the capture can be configured to assume a time zone using the `timezone` configuration property (see below). The `timezone` configuration property can be set as a numerical offset or IANA timezone format.
+  If you are unable to set the `time_zone` in the database and need to capture
+  tables with `DATETIME` columns, the capture can be configured to assume a time
+  zone using the `timezone` configuration property (see below). The `timezone`
+  configuration property can be set as a numerical offset or IANA timezone
+  format.
 </Check>
 
 ## Backfills and performance considerations[​](#backfills-and-performance-considerations "Direct link to Backfills and performance considerations")
 
-When the MySQL capture is initiated, by default, the connector first *backfills*, or captures the targeted tables in their current state. It then transitions to capturing change events on an ongoing basis.
+When the MySQL capture is initiated, by default, the connector first _backfills_, or captures the targeted tables in their current state. It then transitions to capturing change events on an ongoing basis.
 
 This is desirable in most cases, as it ensures that a complete view of your tables is captured into Flow. However, you may find it appropriate to skip the backfill, especially for extremely large tables.
 
@@ -116,7 +121,8 @@ You configure connectors either in the Flow web app, or by directly editing the 
 <Info>
   When you configure this connector in the web application, the automatic **discovery** process sets up a binding for *most* tables it finds in your database, but there are exceptions.
 
-  Tables in the MySQL system schemas `information_schema`, `mysql`, `performance_schema`, and `sys` will not be discovered. You can add bindings for such tables manually.
+Tables in the MySQL system schemas `information_schema`, `mysql`, `performance_schema`, and `sys` will not be discovered. You can add bindings for such tables manually.
+
 </Info>
 
 ### Sample[​](#sample "Direct link to Sample")

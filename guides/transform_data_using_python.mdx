@@ -4,7 +4,8 @@ description: "This guide will teach you how to write and publish a simple Python
 ---
 
 <Check>
-  Python derivations can only be deployed to [private or BYOC data planes](/private-byoc/).
+  Python derivations can only be deployed to [private or BYOC data
+  planes](/private-byoc/).
 </Check>
 
 ## Introduction[]()[​](#introduction "Direct link to introduction")
@@ -15,12 +16,15 @@ This tutorial will show you how to implement a stateless transformation using Py
 
 In order to implement transformations through [derivations](https://docs.estuary.dev/concepts/#derivations), you'll need to set up your development environment. You'll need a text editor and [flowctl](https://docs.estuary.dev/concepts/flowctl/), the CLI-tool for Flow installed on your machine. Check out the [docs page](https://docs.estuary.dev/concepts/flowctl/#installation-and-setup) on installation instructions.
 
-Before continuing, sign in to the Estuary Flow dashboard, make sure you enable access to the Wikipedia demo. Using `flowctl`, quickly verify you are able to view the demo collections used in this guide.
+Before continuing, sign in to the Estuary dashboard, make sure you enable access to the Wikipedia demo. Using `flowctl`, quickly verify you are able to view the demo collections used in this guide.
 
 Execute the below command to display the documents in the `demo/wikipedia/recentchange-sampled` collection:
 
 <Note>
-  This collection is a 3% sample of the enormous `demo/wikipedia/recentchange` collection which contains millions of documents. Since the purpose of this tutorial is to demonstrate a proof of concept, we avoid publishing a derivation that processes hundreds of gigabytes of data.
+  This collection is a 3% sample of the enormous `demo/wikipedia/recentchange`
+  collection which contains millions of documents. Since the purpose of this
+  tutorial is to demonstrate a proof of concept, we avoid publishing a
+  derivation that processes hundreds of gigabytes of data.
 </Note>
 
 ```
@@ -104,7 +108,8 @@ If everything went well, you'll see a bunch of new files that `flowctl` generate
 ```
 
 <Note>
-  The tree output may show additional `__init__.py` files in intermediate directories - this is expected Python package structure.
+  The tree output may show additional `__init__.py` files in intermediate
+  directories - this is expected Python package structure.
 </Note>
 
 The folder `flow_generated` along with the `pyproject.toml` and `pyrightconfig.json` files are things you won't have to modify during this tutorial. The `wiki-edit-events.flow.py` file was generated as a skeleton that you'll implement in the next section. If you take a look at the file that `flowctl` generated under `flow_generated/python/AcmeCo/derivation_tutorial/wiki_edit_events/__init__.py`, you can see the types you are able to use in your transformations.
@@ -129,7 +134,7 @@ Now, the actual transformation code will live in the file `wiki-edit-events.flow
 """Derivation implementation for AcmeCo/derivation-tutorial/wiki-edit-events."""from collections.abc import AsyncIteratorfrom AcmeCo.derivation_tutorial.wiki_edit_events import IDerivation, Document, Request# Implementation for derivation AcmeCo/derivation-tutorial/wiki-edit-events.class Derivation(IDerivation):    async def enrich_events(self, read: Request.ReadEnrichEvents) -> AsyncIterator[Document]:        raise NotImplementedError("enrich_events not implemented")        if False:            yield  # Mark as a generator.
 ```
 
-Helpfully, `flowctl` provides a skeleton function. Note that the transform name `enrichEvents` has been converted to the snake\_case method name `enrich_events` following Python conventions.
+Helpfully, `flowctl` provides a skeleton function. Note that the transform name `enrichEvents` has been converted to the snake_case method name `enrich_events` following Python conventions.
 
 ## The transformation code[]()[​](#the-transformation-code "Direct link to the-transformation-code")
 
@@ -182,7 +187,10 @@ flowctl catalog publish --source flow.yaml
 ```
 
 <Warning>
-  Publishing will activate your derivation to continuously process the Wikipedia sample stream and store the results. This will consume storage and compute resources. Make sure to delete the collection after completing the tutorial to avoid unnecessary costs.
+  Publishing will activate your derivation to continuously process the Wikipedia
+  sample stream and store the results. This will consume storage and compute
+  resources. Make sure to delete the collection after completing the tutorial to
+  avoid unnecessary costs.
 </Warning>
 
 After successfully publishing your derivation, head over to the Collections page on the Web UI and you will be able to see your derivation in action!
@@ -191,11 +199,11 @@ After successfully publishing your derivation, head over to the Collections page
 
 In this guide you learned how to write your first stateless Python derivation to transform raw events into enriched, analytics-ready data. You've seen how:
 
-* Flow automatically generates Pydantic models from your JSON schemas
-* Python derivations use async generators to efficiently process documents
-* You can extract and transform data using simple Python logic
-* Type safety helps catch errors during development
-* The Python connector integrates seamlessly with the broader Python ecosystem
+- Flow automatically generates Pydantic models from your JSON schemas
+- Python derivations use async generators to efficiently process documents
+- You can extract and transform data using simple Python logic
+- Type safety helps catch errors during development
+- The Python connector integrates seamlessly with the broader Python ecosystem
 
 The enriched events you created demonstrate a real-world pattern: taking raw operational data and transforming it into clean, structured data ready for analytics, dashboards, or machine learning pipelines.
 
@@ -203,8 +211,8 @@ The enriched events you created demonstrate a real-world pattern: taking raw ope
 
 This tutorial covered the basics of stateless Python derivations. For more advanced patterns, check out:
 
-* **Stateful derivations**: Learn how to maintain persistent state across documents and task restarts in the [stateful example](https://github.com/estuary/flow/blob/master/examples/derive-patterns/stateful.flow.py)
-* **Async pipelining**: Process documents with bounded concurrency for API calls and I/O operations in the [pipeline example](https://github.com/estuary/flow/blob/master/examples/derive-patterns/pipeline.flow.py)
-* **All derivation patterns**: Explore the complete set of examples in the [derive-patterns directory](https://github.com/estuary/flow/tree/master/examples/derive-patterns)
+- **Stateful derivations**: Learn how to maintain persistent state across documents and task restarts in the [stateful example](https://github.com/estuary/flow/blob/master/examples/derive-patterns/stateful.flow.py)
+- **Async pipelining**: Process documents with bounded concurrency for API calls and I/O operations in the [pipeline example](https://github.com/estuary/flow/blob/master/examples/derive-patterns/pipeline.flow.py)
+- **All derivation patterns**: Explore the complete set of examples in the [derive-patterns directory](https://github.com/estuary/flow/tree/master/examples/derive-patterns)
 
 [Edit this page](https://github.com/estuary/flow/edit/master/site/docs/transformations/derivation-tutorial-python.md)

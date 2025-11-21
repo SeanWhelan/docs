@@ -27,19 +27,19 @@ flowctl is a command-line interface for working with Flow's public API. Using fl
 
 ## Essential concepts[​](#essential-concepts "Direct link to Essential concepts")
 
-*In this section, you'll find the most important Flow terms and concepts. If you're new to Flow, start here.*
+_In this section, you'll find the most important Flow terms and concepts. If you're new to Flow, start here._
 
 A complete end-to-end **Data Flow** between two systems has three components:
 
-* **Capture**: Flow ingests data from an outside source.
-* **Collections**: Flow maintains the captured data in cloud storage.
-* **Materialization**: Flow pushes data to an outside destination.
+- **Capture**: Flow ingests data from an outside source.
+- **Collections**: Flow maintains the captured data in cloud storage.
+- **Materialization**: Flow pushes data to an outside destination.
 
 graph LR; Capture-->Collection; Collection-->Materialization;
 
 It may also include:
 
-* **Derivations**: You apply a transformation to data in a collection, resulting in a new collection.
+- **Derivations**: You apply a transformation to data in a collection, resulting in a new collection.
 
 All of these entities are described in the **catalog**.
 
@@ -53,7 +53,7 @@ You can mix and match catalog entities to create a variety of Data Flows.
 
 [Learn more about the catalog](/concepts/catalogs/)
 
-***
+---
 
 ### Collections[​](#collections "Direct link to Collections")
 
@@ -67,7 +67,7 @@ Each collection has a keyed [schema](#schemas) against which incoming documents 
 
 [Learn more about collections](/concepts/collections/)
 
-***
+---
 
 ### Captures[​](#captures "Direct link to Captures")
 
@@ -75,7 +75,7 @@ A **capture** is a Flow task that ingests data from an external source into one 
 
 [Learn more about captures](/concepts/captures/)
 
-***
+---
 
 ### Materializations[​](#materializations "Direct link to Materializations")
 
@@ -85,7 +85,7 @@ As new documents become available within bound collections, the materialization 
 
 [Learn more about materializations](/concepts/materialization/)
 
-***
+---
 
 ### Endpoints[​](#endpoints "Direct link to Endpoints")
 
@@ -93,7 +93,7 @@ As new documents become available within bound collections, the materialization 
 
 Flow connects to this wide variety of endpoints using **connectors**.
 
-***
+---
 
 ### Connectors[​](#connectors "Direct link to Connectors")
 
@@ -105,11 +105,11 @@ All currently supported connectors are ready to use in the Flow web application.
 
 [Learn more about connectors](/concepts/connectors/)
 
-***
+---
 
 ## Intermediate concepts[​](#intermediate-concepts "Direct link to Intermediate concepts")
 
-*In this section, you'll find important concepts that are optional for basic usage. Read this to unlock more powerful workflows.*
+_In this section, you'll find important concepts that are optional for basic usage. Read this to unlock more powerful workflows._
 
 ### Derivations[​](#derivations "Direct link to Derivations")
 
@@ -119,7 +119,7 @@ You can use derivations to map, reshape, and filter documents. They can also be 
 
 [Learn more about derivations](/concepts/derivations/)
 
-***
+---
 
 ### Schemas[​](#schemas "Direct link to Schemas")
 
@@ -131,7 +131,7 @@ Flow pauses catalog tasks when documents don't match the collection schema, aler
 
 [Learn more about schemas](/concepts/schemas/)
 
-***
+---
 
 ### Reductions[​](#reductions "Direct link to Reductions")
 
@@ -143,7 +143,7 @@ You can exert more control over your data by changing the default reduction stra
 
 [Learn more about reductions](/concepts/schemas/#reductions)
 
-***
+---
 
 ### Tests[​](#tests "Direct link to Tests")
 
@@ -153,7 +153,7 @@ A test is a sequence of ingestion or verification steps. Ingestion steps ingest 
 
 [Learn more about tests](/concepts/tests/)
 
-***
+---
 
 ### Tasks[​](#tasks "Direct link to Tasks")
 
@@ -161,23 +161,23 @@ Captures, derivations, and materializations are collectively referred to as cata
 
 Collections, by way of comparison, are inert. They reflect data at rest, and are acted upon by catalog tasks:
 
-* A capture adds documents to a collection pulled from a source endpoint.
-* A derivation updates a collection by applying transformations to other collections.
-* A materialization reacts to changes of a collection to update a destination endpoint.
+- A capture adds documents to a collection pulled from a source endpoint.
+- A derivation updates a collection by applying transformations to other collections.
+- A materialization reacts to changes of a collection to update a destination endpoint.
 
-***
+---
 
 ### Resources and bindings[​](#resources-and-bindings "Direct link to Resources and bindings")
 
 A **resource** is an addressable collection of data within a source or destination system. The exact meaning of a resource is up to the endpoint and its connector. For example:
 
-* Resources of a database endpoint might be its individual tables.
-* Resources of a Kafka cluster might be its topics.
-* Resources of a SaaS connector might be its various API feeds.
+- Resources of a database endpoint might be its individual tables.
+- Resources of a Kafka cluster might be its topics.
+- Resources of a SaaS connector might be its various API feeds.
 
 When you create capture or materialization, it connects a collection to a resource through a **binding**. A given capture or materialization may have multiple bindings, which connect multiple collections to different resources.
 
-***
+---
 
 ### Storage mappings[​](#storage-mappings "Direct link to Storage mappings")
 
@@ -187,7 +187,7 @@ Flow [collections](#collections) use cloud storage buckets for the durable stora
 
 ## Advanced concepts[​](#advanced-concepts "Direct link to Advanced concepts")
 
-*This section discusses advanced Flow concepts. The information here unlocks a more technical understanding of how Flow works, and may be helpful in advanced use cases.*
+_This section discusses advanced Flow concepts. The information here unlocks a more technical understanding of how Flow works, and may be helpful in advanced use cases._
 
 ### Journals[​](#journals "Direct link to Journals")
 

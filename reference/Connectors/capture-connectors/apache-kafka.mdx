@@ -15,33 +15,37 @@ JSON messages may be read without a schema registry. If the JSON messages were e
 
 ## Prerequisites[​](#prerequisites "Direct link to Prerequisites")
 
-* A Kafka cluster with:
+- A Kafka cluster with:
 
-  * [bootstrap.servers](https://kafka.apache.org/documentation/#producerconfigs_bootstrap.servers) configured so that clients may connect via the desired host and port
-  * An authentication mechanism of choice set up (highly recommended for production environments)
-  * Connection security enabled with TLS (highly recommended for production environments)
+  - [bootstrap.servers](https://kafka.apache.org/documentation/#producerconfigs_bootstrap.servers) configured so that clients may connect via the desired host and port
+  - An authentication mechanism of choice set up (highly recommended for production environments)
+  - Connection security enabled with TLS (highly recommended for production environments)
 
-* If using schema registry:
+- If using schema registry:
 
-  * The endpoint to use for connecting to the schema registry
-  * Username for authentication
-  * Password for authentication
+  - The endpoint to use for connecting to the schema registry
+  - Username for authentication
+  - Password for authentication
 
-* Flat schemas, i.e. no use of schema references (`import`, `$ref`), as these are not currently supported
+- Flat schemas, i.e. no use of schema references (`import`, `$ref`), as these are not currently supported
 
 <Check>
-  If you are using the Confluent Cloud Schema Registry, your schema registry username and password will be the **key** and **secret** from your schema registry API key. See the [Confluent Cloud Schema Registry Documentation](https://docs.confluent.io/cloud/current/get-started/schema-registry.html#create-an-api-key-for-ccloud-sr) for help setting up a schema registry API key.
+  If you are using the Confluent Cloud Schema Registry, your schema registry
+  username and password will be the **key** and **secret** from your schema
+  registry API key. See the [Confluent Cloud Schema Registry
+  Documentation](https://docs.confluent.io/cloud/current/get-started/schema-registry.html#create-an-api-key-for-ccloud-sr)
+  for help setting up a schema registry API key.
 </Check>
 
 ### Discovered collection schemas[​](#discovered-collection-schemas "Direct link to Discovered collection schemas")
 
-If no schema registry is configured, all available topics will be discovered and use a collection key composed of the captured message's `partition` and `offset`. If schema registry is configured, Flow collections for Kafka topics will be discovered using the *latest* version of the registered key schema for the topic.
+If no schema registry is configured, all available topics will be discovered and use a collection key composed of the captured message's `partition` and `offset`. If schema registry is configured, Flow collections for Kafka topics will be discovered using the _latest_ version of the registered key schema for the topic.
 
 For a collection key to be discovered from a registered topic key schema, the topic key schema must be compatible with a [Flow collection key](/concepts/collections/#keys), with the following additional considerations:
 
-* Key fields must not contain `null` as a type
-* Key fields can be a single type only
-* Keys may contain nested fields, such as types with nested Avro records
+- Key fields must not contain `null` as a type
+- Key fields can be a single type only
+- Keys may contain nested fields, such as types with nested Avro records
 
 If a topic has a registered key schema but it does not fit these requirements, the default collection key of `parition` and `offset` will be used instead.
 
@@ -54,20 +58,23 @@ A wide [variety of authentication methods](https://kafka.apache.org/documentatio
 If you don't already have authentication enabled on your cluster, Estuary recommends either of listed [SASL/SCRAM](https://kafka.apache.org/documentation/#security_sasl_scram) methods. With SCRAM, you set up a username and password, making it analogous to the traditional authentication mechanisms you use in other applications.
 
 <Check>
-  If you are connecting to Kafka hosted on Confluent Cloud, select the **PLAIN** SASL mechanism.
+  If you are connecting to Kafka hosted on Confluent Cloud, select the **PLAIN**
+  SASL mechanism.
 </Check>
 
 For connection security, Estuary recommends that you enable TLS encryption for your SASL mechanism of choice, as well as all other components of your cluster. Note that because TLS replaced now-deprecated SSL encryption, Kafka still uses the acronym "SSL" to refer to TLS encryption. See [Confluent's documentation](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html) for details.
 
 <Info>
-  TLS encryption is currently the only supported connection security mechanism for this connector. Other connection security methods may be enabled in the future.
+  TLS encryption is currently the only supported connection security mechanism
+  for this connector. Other connection security methods may be enabled in the
+  future.
 </Info>
 
 ### AWS Managed Streaming Kafka (MSK)[​](#aws-managed-streaming-kafka-msk "Direct link to AWS Managed Streaming Kafka (MSK)")
 
 If using AWS Managed Streaming for Apache Kafka (MSK), you can use IAM authentication with our connector. Read more about IAM authentication with MSK in AWS docs: [IAM access control](https://docs.aws.amazon.com/msk/latest/developerguide/iam-access-control.html).
 
-Additionally, you want to make sure that your VPC configuration allows inbound and outbound requests to [Estuary Flow IP addresses](/reference/allow-ip-addresses/).
+Additionally, you want to make sure that your VPC configuration allows inbound and outbound requests to [Estuary IP addresses](/reference/allow-ip-addresses/).
 
 ## Configuration[​](#configuration "Direct link to Configuration")
 
@@ -86,9 +93,9 @@ You configure connectors either in the Flow web app, or by directly editing the 
 | `/credentials/mechanism`                   | SASL Mechanism                       | SASL mechanism describing how to exchange and authenticate client servers.                                                                                                           | string       |                         |
 | `/credentials/password`                    | Password                             | Password, if applicable for the authentication mechanism chosen.                                                                                                                     | string       |                         |
 | `/credentials/username`                    | Username                             | Username, if applicable for the authentication mechanism chosen.                                                                                                                     | string       |                         |
-| `/credentials/aws_access_key_id`           | AWS Access Key ID                    | Supply if using auth\_type: AWS                                                                                                                                                      | string       |                         |
-| `/credentials/aws_secret_access_key`       | AWS Secret Access Key                | Supply if using auth\_type: AWS                                                                                                                                                      | string       |                         |
-| `/credentials/region`                      | AWS Region                           | Supply if using auth\_type: AWS                                                                                                                                                      | string       |                         |
+| `/credentials/aws_access_key_id`           | AWS Access Key ID                    | Supply if using auth_type: AWS                                                                                                                                                       | string       |                         |
+| `/credentials/aws_secret_access_key`       | AWS Secret Access Key                | Supply if using auth_type: AWS                                                                                                                                                       | string       |                         |
+| `/credentials/region`                      | AWS Region                           | Supply if using auth_type: AWS                                                                                                                                                       | string       |                         |
 | **`/schema_registry`**                     | Schema Registry                      | Connection details for interacting with a schema registry.                                                                                                                           | object       | Required                |
 | **`schema_registry/schema_registry_type`** | Schema Registry Type                 | Either `confluent_schema_registry` or `no_schema_registry`.                                                                                                                          | object       | Required                |
 | `/schema_registry/endpoint`                | Schema Registry Endpoint             | Schema registry API endpoint. For example: [https://registry-id.us-east-2.aws.confluent.cloud](https://registry-id.us-east-2.aws.confluent.cloud).                                   | string       |                         |

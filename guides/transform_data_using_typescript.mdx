@@ -11,12 +11,15 @@ This tutorial will show you how to implement a stateless transformation using Ty
 
 In order to implement transformations through [derivations](https://docs.estuary.dev/concepts/#derivations), you’ll need to set up your development environment. You’ll need a text editor and [flowctl](https://docs.estuary.dev/concepts/flowctl/), the CLI-tool for Flow installed on your machine. Check out the [docs page](https://docs.estuary.dev/concepts/flowctl/#installation-and-setup) on installation instructions.
 
-Before continuing, sign in to the Estuary Flow dashboard, make sure you enable access to the Wikipedia demo. Using `flowctl`, quickly verify you are able to view the demo collections used in this guide.
+Before continuing, sign in to the Estuary dashboard, make sure you enable access to the Wikipedia demo. Using `flowctl`, quickly verify you are able to view the demo collections used in this guide.
 
 Execute the below command to display the documents in the `demo/wikipedia/recentchange-sampled` collection:
 
 <Note>
-  This collection is a 3% sample of the enormous `demo/wikipedia/recentchange` collection which contains millions of documents. Since the purpose of this tutorial is to demonstrate a proof of concept, we avoid publishing a derivation that processes hundreds of gigabytes of data.
+  This collection is a 3% sample of the enormous `demo/wikipedia/recentchange`
+  collection which contains millions of documents. Since the purpose of this
+  tutorial is to demonstrate a proof of concept, we avoid publishing a
+  derivation that processes hundreds of gigabytes of data.
 </Note>
 
 ```
@@ -49,7 +52,7 @@ Inside your `flow.yaml `file, add the following contents:
 ---collections:  Dani/derivation-tutorial/recentchange-filtered-typescript:    schema: recentchange-filtered.schema.yaml    key:      - /_meta/file      - /_meta/offset    derive:      using:        typescript:          module: recentchange-filtered.ts      transforms:        - name: filter_values_typescript          source: demo/wikipedia/recentchange-sampled          shuffle: any
 ```
 
- 
+
 
 The Flow consists of just one collection, which is what you define here, called `Dani/derivation-tutorial/recentchange-filtered-typescript`.
 
@@ -81,7 +84,7 @@ The final section is where you specify that this collection is derived from anot
 derive:  using:    typescript:      module: recentchange-filtered.ts  transforms:    - name: filter_values_typescript      source: demo/wikipedia/recentchange-sampled      shuffle: any
 ```
 
-Here you configure the name of the Typescript file that will contain the code for the actual transformation (don’t worry about the file not existing yet!) and give a name to the transformation. 
+Here you configure the name of the Typescript file that will contain the code for the actual transformation (don’t worry about the file not existing yet!) and give a name to the transformation.
 
 The `source: demo/wikipedia/recentchange-sampled` property lets Flow know that the source collection is the demo collection from mentioned at in the beginning of the tutorial while `shuffle` tells Flow how to colocate documents while processing, which in this case is set to `any`, meaning source documents can be processed by any scaled-out instance of the derivation.
 
@@ -134,7 +137,9 @@ You can use `flowctl` to quickly verify your derivation before publishing it. Us
 As you can see, the output format matches the defined schema.  The last step would be to publish your derivation to Flow, which you can also do using `flowctl`.
 
 <Warning>
-  Publishing the derivation will initialize the transformation on the live, real-time Wikipedia stream, make sure to delete it after completing the tutorial.
+  Publishing the derivation will initialize the transformation on the live,
+  real-time Wikipedia stream, make sure to delete it after completing the
+  tutorial.
 </Warning>
 
 ```

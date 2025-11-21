@@ -11,12 +11,15 @@ This tutorial will show you how to implement a stateless transformation using SQ
 
 In order to implement transformations through [derivations](https://docs.estuary.dev/concepts/#derivations), you’ll need to set up your development environment. You’ll need a text editor and [flowctl](https://docs.estuary.dev/concepts/flowctl/), the CLI-tool for Flow installed on your machine. Check out the [docs page](https://docs.estuary.dev/concepts/flowctl/#installation-and-setup) on installation instructions.
 
-Before continuing, sign in to the Estuary Flow dashboard, make sure you enable access to the Wikipedia demo. Using `flowctl`, quickly verify you are able to view the demo collections used in this guide.
+Before continuing, sign in to the Estuary dashboard, make sure you enable access to the Wikipedia demo. Using `flowctl`, quickly verify you are able to view the demo collections used in this guide.
 
 Execute the below command to display the documents in the `demo/wikipedia/recentchange-sampled` collection:
 
 <Note>
-  This collection is a 3% sample of the enormous `demo/wikipedia/recentchange` collection which contains millions of documents. Since the purpose of this tutorial is to demonstrate a proof of concept, we avoid publishing a derivation that processes hundreds of gigabytes of data.
+  This collection is a 3% sample of the enormous `demo/wikipedia/recentchange`
+  collection which contains millions of documents. Since the purpose of this
+  tutorial is to demonstrate a proof of concept, we avoid publishing a
+  derivation that processes hundreds of gigabytes of data.
 </Note>
 
 ```
@@ -47,7 +50,7 @@ Inside your `flow.yaml` file, add the following contents:
 ---collections:  Dani/derivation-tutorial/edits-by-users:    schema:      type: object      properties:        user_id:          type: string        date:          format: date          type: string        total_edits:          reduce:            strategy: sum          type: number        total_new_lines:          reduce:            strategy: sum          type: number      reduce:        strategy: merge      required:        - date        - user_id    key:      - /date      - /user_id    derive:      using:        sqlite: {}      transforms:        - name: edits_by_users          source: demo/wikipedia/recentchange-sampled          shuffle: any          lambda: |            select            $user as user_id,            substr($meta$dt,1,10) as date,            1 as total_edits,            coalesce($length$new - $length$old, 0) as total_new_lines            where $type = 'edit' and $user is not null and $bot = 0;
 ```
 
- 
+
 
 The Flow consists of just one collection, which is what you define here, called `edits-by-users`.
 
@@ -91,7 +94,7 @@ The SQL is straightforward
 select    $user as user_id,    substr($meta$dt,1,10) as date,    1 as total_edits,    coalesce($length$new - $length$old, 0) as total_new_lineswhere $type = 'edit' and $user is not null and $bot = 0
 ```
 
-We select the `user_id`, parse the event `date` and calculate the amount of line changes. We also select `1` for the value of `total_edits`, this is important because during the reduction phase, due to having selected `sum` as the strategy, these values will get added together to form the total number of edits in the result. We also filter out non-edit events, bot users or events without a user\_id to have a somewhat clean dataset.
+We select the `user_id`, parse the event `date` and calculate the amount of line changes. We also select `1` for the value of `total_edits`, this is important because during the reduction phase, due to having selected `sum` as the strategy, these values will get added together to form the total number of edits in the result. We also filter out non-edit events, bot users or events without a user_id to have a somewhat clean dataset.
 
 ## Verify[]()[​](#verify "Direct link to verify")
 
@@ -104,7 +107,9 @@ flowctl preview --source flow.yaml --name Dani/derivation-tutorial/edits-by-user
 As you can see, the output format matches the defined schema.  The last step would be to publish your derivation to Flow, which you can also do using `flowctl`.
 
 <Warning>
-  Publishing the derivation will initialize the transformation on the live, real-time Wikipedia stream, make sure to delete it after completing the tutorial.
+  Publishing the derivation will initialize the transformation on the live,
+  real-time Wikipedia stream, make sure to delete it after completing the
+  tutorial.
 </Warning>
 
 ```

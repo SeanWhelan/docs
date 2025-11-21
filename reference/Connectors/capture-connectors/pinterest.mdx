@@ -9,14 +9,14 @@ It is available for use in the Flow web application. For local development or op
 
 To set up the Pinterest source connector, you'll need the following prerequisites:
 
-* Pinterest App ID and secret key
-* Refresh Token
+- Pinterest App ID and secret key
+- Refresh Token
 
 ## Setup[​](#setup "Direct link to Setup")
 
 Follow the steps below to set up the Pinterest source connector.
 
-1. Log into your Estuary Flow account.
+1. Log into your Estuary account.
 2. Navigate to the "Captures" section
 3. For the "Start Date," provide the date in YYYY-MM-DD format. Data added on and after this date will be replicated.
 4. Next, go to "Authorization Method"
@@ -51,30 +51,32 @@ You configure connectors either in the Flow web app, or by directly editing the 
 
 The Pinterest source connector supports the following streams:
 
-* Account analytics (Incremental)
-* Boards (Full table)
-* Board sections (Full table)
-* Pins on board section (Full table)
-* Pins on board (Full table)
-* Ad accounts (Full table)
-* Ad account analytics (Incremental)
-* Campaigns (Incremental)
-* Campaign analytics (Incremental)
-* Ad groups (Incremental)
-* Ad group analytics (Incremental)
-* Ads (Incremental)
-* Ad analytics (Incremental)
+- Account analytics (Incremental)
+- Boards (Full table)
+- Board sections (Full table)
+- Pins on board section (Full table)
+- Pins on board (Full table)
+- Ad accounts (Full table)
+- Ad account analytics (Incremental)
+- Campaigns (Incremental)
+- Campaign analytics (Incremental)
+- Ad groups (Incremental)
+- Ad group analytics (Incremental)
+- Ads (Incremental)
+- Ad analytics (Incremental)
 
 ## Performance Considerations[​](#performance-considerations "Direct link to Performance Considerations")
 
 The Pinterest API imposes certain rate limits for the connector. Please take note of the following limits:
 
-* Analytics streams: 300 calls per day per user
-* Ad accounts streams (Campaigns, Ad groups, Ads): 1000 calls per minute per user per app
-* Boards streams: 10 calls per second per user per app
+- Analytics streams: 300 calls per day per user
+- Ad accounts streams (Campaigns, Ad groups, Ads): 1000 calls per minute per user per app
+- Boards streams: 10 calls per second per user per app
 
 <Note>
-  For any additional information or troubleshooting, refer to the official [Pinterest API documentation](https://developers.pinterest.com/docs/overview/welcome/).
+  For any additional information or troubleshooting, refer to the official
+  [Pinterest API
+  documentation](https://developers.pinterest.com/docs/overview/welcome/).
 </Note>
 
 [Edit this page](https://github.com/estuary/flow/edit/master/site/docs/reference/Connectors/capture-connectors/pinterest.md)

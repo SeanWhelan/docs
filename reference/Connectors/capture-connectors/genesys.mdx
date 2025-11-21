@@ -9,20 +9,20 @@ It is available for use in the Flow web application. For local development or op
 
 The following data resources are supported through the Genesys API:
 
-* [Campaigns](https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-outbound-campaigns-all)
-* [Conversations](https://developer.genesys.cloud/routing/conversations/conversations-apis#post-api-v2-analytics-conversations-details-jobs)
-* \[Messaging Campaigns]\[[https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-outbound-messagingcampaigns](https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-outbound-messagingcampaigns)]
-* [Queues](https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-routing-queues)
-* [Queue Members](https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-routing-queues--queueId--members)
-* [Teams](https://developer.genesys.cloud/devapps/api-explorer#post-api-v2-teams-search)
-* [Users](https://developer.genesys.cloud/useragentman/users/#get-api-v2-users)
+- [Campaigns](https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-outbound-campaigns-all)
+- [Conversations](https://developer.genesys.cloud/routing/conversations/conversations-apis#post-api-v2-analytics-conversations-details-jobs)
+- \[Messaging Campaigns]\[[https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-outbound-messagingcampaigns](https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-outbound-messagingcampaigns)]
+- [Queues](https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-routing-queues)
+- [Queue Members](https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-routing-queues--queueId--members)
+- [Teams](https://developer.genesys.cloud/devapps/api-explorer#post-api-v2-teams-search)
+- [Users](https://developer.genesys.cloud/useragentman/users/#get-api-v2-users)
 
 By default, each resource is mapped to a Flow collection through a separate binding.
 
 ## Prerequisites[​](#prerequisites "Direct link to Prerequisites")
 
-* A Genesys account with API access.
-* An OAuth app created within your Genesys account with the Client Credentials grant type. See [Authentication](#authentication) for instructions on how to create this.
+- A Genesys account with API access.
+- An OAuth app created within your Genesys account with the Client Credentials grant type. See [Authentication](#authentication) for instructions on how to create this.
 
 ### Authentication[​](#authentication "Direct link to Authentication")
 
@@ -32,7 +32,7 @@ Genesys requires an OAuth client for authentication. To create an OAuth client i
 2. Click **Admin**.
 3. Under the **Integrations** section, click **OAuth**.
 4. Click the **+ Add Client** button.
-5. Enter an **App Name**, like "Estuary Flow OAuth Client".
+5. Enter an **App Name**, like "Estuary OAuth Client".
 6. Under **Grant Types**, select **Client Credentials**.
 7. In the **Roles** tab, select the appropriate role for the OAuth app.
 8. Click **Save**.

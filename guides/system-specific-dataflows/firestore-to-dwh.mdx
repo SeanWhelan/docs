@@ -1,39 +1,39 @@
 ---
 title: "Google Cloud Firestore to Snowflake"
-description: "This guide walks you through the process of creating an end-to-end real-time Data Flow from Google Cloud Firestore to Snowflake using Estuary Flow."
+description: "This guide walks you through the process of creating an end-to-end real-time Data Flow from Google Cloud Firestore to Snowflake using Estuary."
 ---
 
 ## Prerequisites[​](#prerequisites "Direct link to Prerequisites")
 
 You'll need:
 
-* (Recommended) understanding of the [basic Flow concepts](/concepts/#essential-concepts).
+- (Recommended) understanding of the [basic Flow concepts](/concepts/#essential-concepts).
 
-* Access to the [**Flow web application**](http://dashboard.estuary.dev) through an Estuary account. If you don't have one, visit the web app to register for free.
+- Access to the [**Flow web application**](http://dashboard.estuary.dev) through an Estuary account. If you don't have one, visit the web app to register for free.
 
-* A **Firestore database** that contains the data you'd like to move to Snowflake. You [create this as part of a Google Firebase project](https://cloud.google.com/firestore/docs/create-database-web-mobile-client-library).
+- A **Firestore database** that contains the data you'd like to move to Snowflake. You [create this as part of a Google Firebase project](https://cloud.google.com/firestore/docs/create-database-web-mobile-client-library).
 
-* A Google service account with:
+- A Google service account with:
 
-  * Read access to your Firestore database, via [roles/datastore.viewer](https://cloud.google.com/datastore/docs/access/iam). You can assign this role when you [create the service account](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating), or [add it to an existing service account](https://cloud.google.com/iam/docs/granting-changing-revoking-access#single-role).
+  - Read access to your Firestore database, via [roles/datastore.viewer](https://cloud.google.com/datastore/docs/access/iam). You can assign this role when you [create the service account](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating), or [add it to an existing service account](https://cloud.google.com/iam/docs/granting-changing-revoking-access#single-role).
 
-  * A generated [JSON service account key](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating) for the account.
+  - A generated [JSON service account key](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating) for the account.
 
-* A Snowflake account with:
+- A Snowflake account with:
 
-  * A target **database**, **schema**, and virtual **warehouse**; and a **user** with a **role** assigned that grants the appropriate access levels to these resources. [You can use a script to quickly create all of these items.](/reference/Connectors/materialization-connectors/Snowflake/#setup) Have these details on hand for setup with Flow.
+  - A target **database**, **schema**, and virtual **warehouse**; and a **user** with a **role** assigned that grants the appropriate access levels to these resources. [You can use a script to quickly create all of these items.](/reference/Connectors/materialization-connectors/Snowflake/#setup) Have these details on hand for setup with Flow.
 
-  * The account identifier and host URL noted. [The URL is formatted using the account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier.html#where-are-account-identifiers-used). For example, you might have the account identifier `orgname-accountname.snowflakecomputing.com`.
+  - The account identifier and host URL noted. [The URL is formatted using the account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier.html#where-are-account-identifiers-used). For example, you might have the account identifier `orgname-accountname.snowflakecomputing.com`.
 
 ## Introduction[​](#introduction "Direct link to Introduction")
 
-In Estuary Flow, you create **Data Flows** to transfer data from **source** systems to **destination** systems in real time. In this use case, your source is a Google Cloud Firestore NoSQL database and your destination is a Snowflake data warehouse.
+In Estuary, you create **Data Flows** to transfer data from **source** systems to **destination** systems in real time. In this use case, your source is a Google Cloud Firestore NoSQL database and your destination is a Snowflake data warehouse.
 
 After following this guide, you'll have a Data Flow that comprises:
 
-* A **capture**, which ingests data from Firestore
-* Several **collections**, cloud-backed copies of [Firestore collections](https://cloud.google.com/firestore/docs/data-model) in the Flow system
-* A **materialization**, which pushes the collections to Snowflake
+- A **capture**, which ingests data from Firestore
+- Several **collections**, cloud-backed copies of [Firestore collections](https://cloud.google.com/firestore/docs/data-model) in the Flow system
+- A **materialization**, which pushes the collections to Snowflake
 
 The capture and materialization rely on plug-in components called **connectors**. We'll walk through how to configure the [Firestore](/reference/Connectors/capture-connectors/google-firestore/) and [Snowflake](/reference/Connectors/materialization-connectors/Snowflake/) connectors to integrate these systems with Flow.
 
@@ -57,9 +57,9 @@ You'll first create a capture to connect to your Firestore database, which will 
 
 5. Fill out the required properties for Firestore.
 
-   * **Database**: Flow can autodetect the database name, but you may optionally specify it here. This is helpful if the service account used has access to multiple Firebase projects. Your database name usually follows the format `projects/$PROJECTID/databases/(default)`.
+   - **Database**: Flow can autodetect the database name, but you may optionally specify it here. This is helpful if the service account used has access to multiple Firebase projects. Your database name usually follows the format `projects/$PROJECTID/databases/(default)`.
 
-   * **Credentials**: The JSON service account key created per the [prerequisites](#prerequisites).
+   - **Credentials**: The JSON service account key created per the [prerequisites](#prerequisites).
 
 6. Click **Next**.
 
@@ -69,9 +69,7 @@ You'll first create a capture to connect to your Firestore database, which will 
 
    You can use the **Source Collections** browser to remove or modify collections. You'll have the chance to tighten up each collection's JSON schema later, when you materialize to Snowflake.
 
-<Check>
-  If you make any changes to collections, click **Next** again.
-</Check>
+<Check>If you make any changes to collections, click **Next** again.</Check>
 
 7. Once you're satisfied with the collections to be captured, click **Save and Publish**.
 
@@ -93,14 +91,14 @@ Next, you'll add a Snowflake materialization to connect the captured data to its
 
 3. Fill out the required properties for Snowflake (you should have most of these handy from the [prerequisites](#prerequisites)).
 
-   * **Host URL**
-   * **Account**
-   * **User**
-   * **Password**
-   * **Database**
-   * **Schema**
-   * **Warehouse**: optional
-   * **Role**: optional
+   - **Host URL**
+   - **Account**
+   - **User**
+   - **Password**
+   - **Database**
+   - **Schema**
+   - **Warehouse**: optional
+   - **Role**: optional
 
 4. Click **Next**.
 
