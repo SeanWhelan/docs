@@ -35,7 +35,11 @@ A complete end-to-end **Data Flow** between two systems has three components:
 - **Collections**: Flow maintains the captured data in cloud storage.
 - **Materialization**: Flow pushes data to an outside destination.
 
-graph LR; Capture-->Collection; Collection-->Materialization;
+```mermaid
+graph LR
+  Capture-->Collection
+  Collection-->Materialization
+```
 
 It may also include:
 

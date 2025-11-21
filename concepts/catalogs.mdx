@@ -9,11 +9,26 @@ You can mix and match catalog entities to create a variety of Data Flows.
 
 The simplest Data Flow has just three entities.
 
-graph LR; Capture-->Collection; Collection-->Materialization;
+```mermaid
+graph LR
+  Capture-->Collection
+  Collection-->Materialization
+```
 
 It may also be more complex, combining multiple entities of each type.
 
-graph LR; capture/two-->collection/D; capture/one-->collection/C; capture/one-->collection/A; collection/A-->derivation/B; collection/D-->derivation/E; collection/C-->derivation/E; derivation/B-->derivation/E; collection/D-->materialization/one; derivation/E-->materialization/two;
+```mermaid
+graph LR
+  capture/two-->collection/D
+  capture/one-->collection/C
+  capture/one-->collection/A
+  collection/A-->derivation/B
+  collection/D-->derivation/E
+  collection/C-->derivation/E
+  derivation/B-->derivation/E
+  collection/D-->materialization/one
+  derivation/E-->materialization/two
+```
 
 ## Flow specification files[​](#flow-specification-files "Direct link to Flow specification files")
 

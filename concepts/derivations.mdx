@@ -209,7 +209,23 @@ A derivation may have many transformations, and each transformation has a long-l
 
 Transformations may be added to or removed from a derivation at any time. This makes it possible to, for example, add a new collection into an existing multi-way join, or gracefully migrate to a new source collection without incurring downtime. However, renaming a running transformation is not possible. If attempted, the old transformation is dropped and a new transformation under the new name is created, which begins reading its source collection all over again.
 
-graph LR; d\[Derivation]; t\[Transformation]; s\[Internal State]; l\[Lambda]; c\[Sourced Collection]; o\[Derived Collection]; d-- has many -->t; d-- has one -->s; d-- has one -->o; c-- reads from -->t; t-- invokes -->l; l-- updates -->s; s-- queries -->l; l-- publishes to -->o;
+```mermaid
+graph LR
+  d[Derivation]
+  t[Transformation]
+  s[Internal State]
+  l[Lambda]
+  c[Sourced Collection]
+  o[Derived Collection]
+  d-- has many -->t
+  d-- has one -->s
+  d-- has one -->o
+  c-- reads from -->t
+  t-- invokes -->l
+  l-- updates -->s
+  s-- queries -->l
+  l-- publishes to -->o
+```
 
 ### Sources[​](#sources "Direct link to Sources")
 
@@ -229,7 +245,21 @@ Shuffles let Flow identify the shard that should process a particular source doc
 
 For example, transforms of the [Approving Transfers example](/getting-started/tutorials/derivations_acmebank/#approving-transfers) shuffle on either `/sender` or `/recipient` in order to process documents that debit or credit accounts on the specific shard that is uniquely responsible for maintaining the balance of a given account.
 
-graph LR; subgraph s1 \[Source Partitions] p1>acmeBank/transfers/part-1]; p2>acmeBank/transfers/part-2]; end subgraph s2 \[Derivation Task Shards] t1(\[derivation/shard-1]); t2(\[derivation/shard-2]); end p1-- sender: alice -->t1; p1-- recipient: bob -->t2; p2-- recipient: alice -->t1; p2-- sender: bob -->t2;
+```mermaid
+graph LR
+  subgraph s1 [Source Partitions]
+    p1>acmeBank/transfers/part-1]
+    p2>acmeBank/transfers/part-2]
+  end
+  subgraph s2 [Derivation Task Shards]
+    t1([derivation/shard-1])
+    t2([derivation/shard-2])
+  end
+  p1-- sender: alice -->t1
+  p1-- recipient: bob -->t2
+  p2-- recipient: alice -->t1
+  p2-- sender: bob -->t2
+```
 
 Flow offers three modes for configuring document shuffles: `key`, `any`, and `lambda`.
 

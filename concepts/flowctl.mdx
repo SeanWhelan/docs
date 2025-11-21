@@ -83,7 +83,14 @@ The basic steps of this workflow are listed below, along with a diagram of the s
 
 * Publish local specifications to the catalog (3).
 
-graph LR; d\[Local environment]; c\[Active catalog]; d-- 2: flowctl catalog test -->d; d-- 3: flowctl catalog publish -->c; c-- 1: flowctl catalog pull-specs -->d;
+```mermaid
+graph LR
+  d[Local environment]
+  c[Active catalog]
+  d-- 2: flowctl catalog test -->d
+  d-- 3: flowctl catalog publish -->c
+  c-- 1: flowctl catalog pull-specs -->d
+```
 
 [View the step-by-step guide.](/guides/flowctl/edit-specification-locally/)
 

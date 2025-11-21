@@ -35,7 +35,11 @@ The simplest Data Flow comprises three types of entities:
 
 - A **materialization**, to push the data to an external destination. In this case, you'll materialize to a Snowflake data warehouse.
 
-graph LR; Capture-->Collection; Collection-->Materialization;
+```mermaid
+graph LR
+  Capture-->Collection
+  Collection-->Materialization
+```
 
 For the capture and materialization to work, they need to integrate with outside systems: in this case, S3 and Snowflake, but many other systems can be used. To accomplish this, Flow uses **connectors**. Connectors are plug-in components that interface between Flow and an outside system. Today, you'll use Flow's S3 capture connector and Snowflake materialization connector.
 

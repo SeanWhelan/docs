@@ -15,8 +15,12 @@ A common pattern for a given draft is to have a single top-level specification f
 
 The `import` section is structured as a list of partial or absolute URIs, which Flow always evaluates relative to the base directory of the current source file. For example, these are possible imports within a collection:
 
-```
-# Suppose we're in file "/path/dir/flow.yaml"import:  - sub/directory/flow.yaml        # Resolves to "file:///path/dir/sub/directory/flow.yaml".  - ../sibling/directory/flow.yaml # Resolves to "file:///path/sibling/directory/flow.yaml".  - https://example/path/flow.yaml # Uses the absolute url.
+```yaml
+# Suppose we're in file "/path/dir/flow.yaml"
+import:
+  - sub/directory/flow.yaml        # Resolves to "file:///path/dir/sub/directory/flow.yaml".
+  - ../sibling/directory/flow.yaml # Resolves to "file:///path/sibling/directory/flow.yaml".
+  - https://example/path/flow.yaml # Uses the absolute url.
 ```
 
 The import rule is flexible; a collection doesn’t have to do anything special to be imported by another, and [`flowctl`](/concepts/flowctl/) can even directly build remote sources:
@@ -35,14 +39,17 @@ This means it's both safe and recommended to directly reference an authoritative
 
 Almost always, the `import` stanza is used to import other Flow specification files. This is the default when given a string path:
 
-```
-import: - path/to/source/catalog.flow.yaml
+```yaml
+import:
+  - path/to/source/catalog.flow.yaml
 ```
 
 A long-form variant also accepts a content type of the imported resource:
 
-```
-import: - url: path/to/source/catalog.flow.yaml   contentType: CATALOG
+```yaml
+import:
+  - url: path/to/source/catalog.flow.yaml
+    contentType: CATALOG
 ```
 
 Other permitted content types include `JSON_SCHEMA`, but these are not typically used and are needed only for advanced use cases.
@@ -69,15 +76,26 @@ When you omit the `import` section, Flow chooses an import path for you. When yo
 
 Import paths can be direct:
 
-graph LR; foo.flow\.yaml-->bar.flow\.yaml;
+```mermaid
+graph LR
+  foo.flow.yaml-->bar.flow.yaml
+```
 
 Or they can be indirect:
 
-graph LR; bar.flow\.yaml-->other.flow\.yaml; other.flow\.yaml-->foo.flow\.yaml;
+```mermaid
+graph LR
+  bar.flow.yaml-->other.flow.yaml
+  other.flow.yaml-->foo.flow.yaml
+```
 
 The sources must still have an import path even if referenced from a common parent. The following would **not** work:
 
-graph LR; parent.flow\.yaml-->foo.flow\.yaml; parent.flow\.yaml-->bar.flow\.yaml;
+```mermaid
+graph LR
+  parent.flow.yaml-->foo.flow.yaml
+  parent.flow.yaml-->bar.flow.yaml
+```
 
 These rules make your catalog sources more self-contained and less brittle to refactoring and reorganization. Consider what might otherwise happen if `foo.flow.yaml` were imported in another project without `bar.flow.yaml`.
 

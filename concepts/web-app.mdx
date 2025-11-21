@@ -38,7 +38,11 @@ When you log into the web app, you land on the **Welcome** page. There are four 
 
 The order of the tabs mirrors the order of a basic Data Flow:
 
-graph LR; Capture-->Collection; Collection-->Materialization;
+```mermaid
+graph LR
+  Capture-->Collection
+  Collection-->Materialization
+```
 
 While you may choose to [use the tabs in this sequence](/guides/create-dataflow/), it's not necessary. All Flow entities exist individually, outside of the context of a complete Data Flow. You can use the different pages in the web app to monitor and manage your items in a number of other ways, as described below.
 
