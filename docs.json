@@ -8,6 +8,9 @@
     "dark": "#04192B"
   },
   "favicon": "/favicon.svg",
+  "seo": {
+    "indexHiddenPages": true
+  },
   "navigation": {
     "tabs": [
       {
